@@ -1,4 +1,5 @@
 """constant.py — Constantes de configuration de l'application."""
+
 from pathlib import Path
 
 # Fichier JSON contenant les joueurs (ta base existante)

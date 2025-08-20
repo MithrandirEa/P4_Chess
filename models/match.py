@@ -3,13 +3,15 @@ from dataclasses import dataclass, field
 from typing import Optional, Dict, Any
 import uuid
 
+
 @dataclass
 class Match:
     """Un match entre deux joueurs, référencés par leur national_chess_id."""
+
     white_id: str
     black_id: str
     board: Optional[int] = None
-    result: Optional[str] = None   # "1-0" | "0-1" | "1/2-1/2" | None
+    result: Optional[str] = None  # "1-0" | "0-1" | "1/2-1/2" | None
     match_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     def to_record(self) -> Dict[str, Any]:

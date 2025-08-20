@@ -5,10 +5,12 @@ import uuid
 
 from .match import Match
 
+
 @dataclass
 class Round:
     """Un tour (ronde) d’un tournoi. Contient une liste de matches."""
-    name: str                   # ex. "Ronde 1"
+
+    name: str  # ex. "Ronde 1"
     number: Optional[int] = None
     date: Optional[str] = None  # ex. "2025-08-19"
     matches: List[Match] = field(default_factory=list)
@@ -29,6 +31,10 @@ class Round:
             name=rec.get("name", ""),
             number=rec.get("number"),
             date=rec.get("date"),
-            matches=[Match.from_record(m) for m in rec.get("matches", []) if isinstance(m, dict)],
+            matches=[
+                Match.from_record(m)
+                for m in rec.get("matches", [])
+                if isinstance(m, dict)
+            ],
             round_id=rec.get("round_id", str(uuid.uuid4())),
         )

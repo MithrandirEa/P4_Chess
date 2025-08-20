@@ -2,9 +2,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
 
+
 @dataclass
 class Player:
     """Entité représentant un joueur d'échecs."""
+
     name: str
     birthdate: str
     national_chess_id: str

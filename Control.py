@@ -9,16 +9,26 @@ from models.player import Player
 from models.round import Round
 from models.match import Match
 from models.stores import (
-    list_players, add_player,
-    list_rounds, create_round,
-    add_match_to_round, set_match_result,
+    list_players,
+    add_player,
+    list_rounds,
+    create_round,
+    add_match_to_round,
+    set_match_result,
 )
+
 
 def flow_players() -> None:
     if view.ask_yes_no("Souhaitez-vous créer un nouveau joueur ?"):
         fields = view.prompt_player_fields()
-        if not fields["name"] or not fields["birthdate"] or not fields["national_chess_id"]:
-            print("Champs obligatoires manquants (nom, date de naissance, ID national).")
+        if (
+            not fields["name"]
+            or not fields["birthdate"]
+            or not fields["national_chess_id"]
+        ):
+            print(
+                "Champs obligatoires manquants (nom, date de naissance, ID national)."
+            )
         else:
             ok = add_player(Player(**fields))
             view.show_player_added(ok, fields["name"])
@@ -52,7 +62,9 @@ def flow_rounds() -> None:
             if created:
                 view.show_match_added(created)
             else:
-                print("Impossible d'ajouter le match (IDs joueurs invalides, identiques ou tour introuvable).")
+                print(
+                    "Impossible d'ajouter le match (IDs joueurs invalides, identiques ou tour introuvable)."
+                )
 
     # 3) Mettre un résultat ?
     if view.ask_yes_no("Mettre à jour le résultat d'un match ?"):
@@ -65,7 +77,10 @@ def flow_rounds() -> None:
                     view.show_rounds([r])
                     break
             match_id = input("Saisir l'id du match : ").strip()
-            result = input("Résultat (1-0, 0-1, 1/2-1/2) ou vide pour None : ").strip() or None
+            result = (
+                input("Résultat (1-0, 0-1, 1/2-1/2) ou vide pour None : ").strip()
+                or None
+            )
             ok = set_match_result(round_id, match_id, result)
             view.show_set_result(ok)
 
