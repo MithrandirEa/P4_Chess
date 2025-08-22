@@ -20,7 +20,7 @@ SRC_PATHS := models Control.py View.py constant.py
 help: ## Affiche cette aide
 	@grep -E '^[a-zA-Z0-9._-]+:.*?## ' Makefile | sed 's/:.*##/: /' | column -s': ' -t
 
-# --- Environnement ---
+# --- Environnement ---"
 $(VENV): ## Crée l'environnement virtuel local
 	$(PY) -m venv $(VENV)
 	$(PIP_VENV) install --upgrade pip wheel
