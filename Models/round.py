@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List
 from datetime import datetime
-from Model.match import Match
+from Models.match import Match
 
 
 @dataclass
