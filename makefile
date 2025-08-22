@@ -14,7 +14,7 @@ PY_VENV := $(BIN)/python
 PIP_VENV := $(PY_VENV) -m pip
 
 # Sources
-SRC_PATHS := models Control.py View.py constant.py
+SRC_PATHS := Models Controler View constant.py main.py
 
 .PHONY: help
 help: ## Affiche cette aide
@@ -66,7 +66,7 @@ cov: $(VENV) ## Tests + couverture
 # --- Exécution ---
 .PHONY: run
 run: $(VENV) ## Exécute Control.py
-	$(PY_VENV) Control.py
+	$(PY_VENV) main.py
 
 .PHONY: repl
 repl: $(VENV) ## Ouvre un REPL dans le venv
