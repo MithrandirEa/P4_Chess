@@ -1,7 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Optional, Dict, List, Tuple, Any
-from datetime import datetime
+from typing import Optional, List
 from Models.player import Player
 from Models.round import Round
 
@@ -39,7 +38,7 @@ class Tournament:
     def get_current_round(self) -> Optional[Round]:
         """Retourne la ronde en cours."""
         if self.rounds and self.rounds[-1].end_datetime is None:
-        return self.current_round
+            return self.current_round
         
     def is_finished(self) -> bool:
         """Indique si le tournoi est terminé."""

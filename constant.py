@@ -12,4 +12,4 @@ DB_ROUNDS = Path("Data") / "Rounds.json"
 DEFAULT_ENCODING = "utf-8"
 
 # Résultats autorisés pour un match
-VALID_RESULTS = {"1-0", "0-1", "1/2-1/2", None}
+VALID_RESULTS = {"0", "1", "0.5", None}
