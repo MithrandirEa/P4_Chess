@@ -27,3 +27,19 @@ def prompt_player_fields() -> Dict[str, Optional[str]]:
         "address": address or None,
     }
     
+def promt_tournament_fields() -> Dict[str, Optional[str]]:
+    print("=== Création d'un nouveau tournoi ===")
+    name = input("Nom du tournoi : ").strip()
+    location = input("Lieu : ").strip()
+    start_date = input("Date de début (YYYY-MM-DD) : ").strip()
+    end_date = input("Date de fin (YYYY-MM-DD) : ").strip()
+    number_of_rounds = input("Nombre de rounds (par défaut 4) : ").strip()
+    description = input("Description (optionnelle) : ").strip()
+    return {
+        "name": name,
+        "location": location,
+        "start_date": start_date,
+        "end_date": end_date,
+        "number_of_rounds": int(number_of_rounds) if number_of_rounds.isdigit() else 4,
+        "description": description or None,
+    }

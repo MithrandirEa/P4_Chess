@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List
-from Models.player import Player
-from Models.round import Round
+from models import Player
+from models import Round
 
 
 @dataclass
@@ -22,12 +22,15 @@ class Tournament:
     
     def __post_init__(self):
         """Crée tous les rounds dès la création du tournoi."""
-        self.rounds = [Round(i +1) for i in range(self.number_of_rounds)]
-        
+        self.rounds = [Round(i +1) for i in range(self.number_of_rounds)] 
     
     def add_player(self, player: Player):
         """Ajoute un joueur au tournoi."""
         self.players.append(player)
+        
+    """def player_list(self) -> List[Player]:
+        """Retourne la liste des joueurs du tournoi."""
+        return self.players"""
         
     def get_round(self, number: int) -> Optional [Round]:
         """Retourne la ronde par son numéro."""
