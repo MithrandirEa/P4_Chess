@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 from typing import List, Optional
+
+import random
+
 from models import Tournament, Round, Match, Player
 from view import prompts
 
@@ -30,10 +33,33 @@ class TournamentController:
         """Retourne la liste des tournois existants."""
         return self.tournaments
     
-controller = TournamentController()
 
-# Création d'un tournoi
-def create
+def first_round_shuffle(players: List[Player]) -> Round:
+    """Mélange les joueurs et crée les matchs du premier round."""
+
+    # Copie pour ne pas modifier la liste originale
+    shuffled_players = players[:]
+    random.shuffle(shuffled_players)
+
+    # Création du Round 1
+    round1 = Round(round_number=1)
+
+    # Parcours deux par deux
+    for i in range(0, len(shuffled_players), 2):
+        if i + 1 < len(shuffled_players):
+            p1 = shuffled_players[i]
+            p2 = shuffled_players[i + 1]
+            match = Match(
+                white_player=p1,
+                white_player_score=0.0,
+                black_player=p2,
+                black_player_score=0.0
+            )
+            round1.add_match(match)
+
+    return round1
+
+
 
 
 
