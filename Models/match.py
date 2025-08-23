@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Any
-from Models.player import Player
+from models import Player
 
 
 @dataclass
