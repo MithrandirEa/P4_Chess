@@ -68,6 +68,30 @@ def prompt_main_menu() -> int:
         except ValueError:
             print("Entrée invalide. Veuillez entrer un nombre.")
             
+def prompt_select_tournament(tournaments) -> int:
+    """ Affiche la liste des tournois et retourne l'indice choisi"""
+    
+    if not tournaments:
+        print("\n Aucun tournoi disponible.")
+        return -1
+    
+    print("\n=== Sélectionner un Tournoi ===")
+    for idx, tournament in enumerate(tournaments, start=1):
+        print(f"{idx}. {tournament.name} ({tournament.start_date} - {tournament.end_date})")
+    print("0. Retour au menu principal")
+    
+    while True:
+        try:
+            choice = int(input(f"Sélectionnez un tournoi (0-{len(tournaments)}) : ").strip())
+            if 0 <= choice <= len(tournaments):
+                return choice - 1  # Retourne l'indice dans la liste
+            else:
+                print(f"Choix invalide. Veuillez entrer un nombre entre 0 et {len(tournaments)}.")
+        except ValueError:
+            print("Entrée invalide. Veuillez entrer un nombre.")
+            
+    
+            
 """ Prompt pour le sous-menu de gestion des tournois """    
 def prompt_tournament_management_menu() -> int:
     """Affiche le menu de gestion des tournois et retourne le choix de l'utilisateur."""
@@ -80,9 +104,9 @@ def prompt_tournament_management_menu() -> int:
     
     while True:
         try:
-            choice = int(input("Sélectionnez une option (0-4) : ").strip())
-            if choice in (0, 1, 2, 3, 4):
-                return choice
+            sub_choice = int(input("Sélectionnez une option (0-4) : ").strip())
+            if sub_choice in (0, 1, 2, 3, 4):
+                return sub_choice
             else:
                 print("Choix invalide. Veuillez entrer un nombre entre 0 et 4.")
         except ValueError:

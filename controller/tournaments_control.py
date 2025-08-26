@@ -1,18 +1,22 @@
 """ tournaments_control.py - Contrôleur des tournois."""
 
 from __future__ import annotations
+from pathlib import Path
 from typing import List, Optional
 
 import random
+import json
 
+from constant import DB_TOURNAMENTS, DEFAULT_ENCODING
 from models import Tournament, Round, Match, Player
-from view import prompts
 
 class TournamentController:
     """Contrôleur pour gérer les tournois."""
     
-    def __init__(self):
+    def __init__(self, storage_path=DB_TOURNAMENTS):
+        self.storage_path = Path(storage_path)
         self.tournaments: List[Tournament] = []
+        self.load_tournaments() # Charge les tournois existants au démarrage
         
     def create_tournament(self, name: str, location: str, start_date: str,
                           end_date: str, number_of_rounds: int,
@@ -27,7 +31,24 @@ class TournamentController:
             description=description
         )
         self.tournaments.append(tournament)
+        self.save_tournaments()
         return tournament
+    
+    def save_tournaments(self):
+        """Sauvegarde la liste des tournois dans un fichier JSON."""
+        with open(DB_TOURNAMENTS, "w", encoding=DEFAULT_ENCODING) as f:
+            json.dump([t.to_record() for t in self.tournaments], f, indent=4)
+            
+    def load_tournaments(self):
+        """Charge la liste des tournois depuis un fichier JSON."""
+        try:
+            with open(DB_TOURNAMENTS, "r", encoding=DEFAULT_ENCODING) as f:
+                tournaments_data = json.load(f)
+                self.tournaments = [Tournament.from_record(data) for data in tournaments_data]
+        except FileNotFoundError:
+            self.tournaments = []
+        except json.JSONDecodeError:
+            self.tournaments = []
     
     def list_tournaments(self) -> List[Tournament]:
         """Retourne la liste des tournois existants."""
