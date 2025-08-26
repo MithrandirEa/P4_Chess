@@ -27,7 +27,7 @@ def prompt_player_fields() -> Dict[str, Optional[str]]:
         "address": address or None,
     }
     
-def promt_tournament_fields() -> Dict[str, Optional[str]]:
+def prompt_tournament_fields() -> Dict[str, Optional[str]]:
     print("=== Création d'un nouveau tournoi ===")
     name = input("Nom du tournoi : ").strip()
     location = input("Lieu : ").strip()
@@ -43,3 +43,23 @@ def promt_tournament_fields() -> Dict[str, Optional[str]]:
         "number_of_rounds": int(number_of_rounds) if number_of_rounds.isdigit() else 4,
         "description": description or None,
     }
+    
+def prompt_main_menu() -> int:
+    """Affiche le menu principal et retourne le choix de l'utilisateur."""
+    print("\n=== Menu Principal ===")
+    print("1. Créer un tournoi")
+    print("2. Gerer un tournois")
+    print("3. Afficher les rapports")
+    print("0. Quitter")
+    
+    while True:
+        try:
+            choice = int(input("Sélectionnez une option (0-3) : ").strip())
+            if choice in (0, 1, 2, 3):
+                return choice
+            else:
+                print("Choix invalide. Veuillez entrer un nombre entre 0 et 3.")
+        except ValueError:
+            print("Entrée invalide. Veuillez entrer un nombre.")
+            
+    

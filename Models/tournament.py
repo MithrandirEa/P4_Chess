@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List
-from models import Player
-from models import Round
+from .player import Player
+from .chessRound import Round   
 
 
 @dataclass
@@ -28,9 +28,9 @@ class Tournament:
         """Ajoute un joueur au tournoi."""
         self.players.append(player)
         
-    """def player_list(self) -> List[Player]:
+    def player_list(self) -> List[Player]:
         """Retourne la liste des joueurs du tournoi."""
-        return self.players"""
+        return self.players
         
     def get_round(self, number: int) -> Optional [Round]:
         """Retourne la ronde par son numéro."""
