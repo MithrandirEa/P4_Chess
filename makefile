@@ -65,7 +65,7 @@ cov: $(VENV) ## Tests + couverture
 
 # --- Exécution ---
 .PHONY: run
-run: $(VENV) ## Exécute Control.py
+run: $(VENV) ## Exécute main.py
 	$(PY_VENV) main.py
 
 .PHONY: repl
