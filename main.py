@@ -32,9 +32,8 @@ def main():
             idx = prompts.prompt_select_tournament(controller.list_tournaments())
             if idx == -1:
                 continue # retour au menu principal
-    #       tournament = controller.list_tournaments()[idx]
-            
-            # Ensuite appelle le sous-menu de gestion des tournois
+
+                        # Ensuite appelle le sous-menu de gestion des tournois
             sub_choice = prompt_tournament_management_menu()
             if sub_choice == 1:
                 print(">> Ajouter des joueurs au tournoi (à implémenter)")

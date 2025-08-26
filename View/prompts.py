@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 from typing import Dict, Optional
+from datetime import datetime
+
+from utils.type_validation import validate_cast
 
 
 # ==============PROMPTS==================
@@ -33,16 +36,16 @@ def prompt_tournament_fields() -> Dict[str, Optional[str]]:
     print("=== Création d'un nouveau tournoi ===")
     name = input("Nom du tournoi : ").strip()
     location = input("Lieu : ").strip()
-    start_date = input("Date de début (YYYY-MM-DD) : ").strip()
-    end_date = input("Date de fin (YYYY-MM-DD) : ").strip()
-    number_of_rounds = input("Nombre de rounds (par défaut 4) : ").strip()
+    start_date = validate_cast("Date de début (YYYY-MM-DD) : " , datetime)
+    end_date = validate_cast("Date de fin (YYYY-MM-DD) : " , datetime)
+    number_of_rounds = validate_cast("Nombre de tours (par défaut 4) : ", int, default=4)
     description = input("Description (optionnelle) : ").strip()
     return {
         "name": name,
         "location": location,
-        "start_date": start_date,
-        "end_date": end_date,
-        "number_of_rounds": int(number_of_rounds) if number_of_rounds.isdigit() else 4, # Je ne comprends pas comment résoudre le problème de typage. Voir avec Patrick
+        "start_date": start_date.strftime("%Y-%m-%d") if start_date else None,
+        "end_date": end_date.strftime("%Y-%m-%d") if end_date else None,
+        "number_of_rounds": number_of_rounds if number_of_rounds is not None else 4,
         "description": description or None,
     }
 
@@ -54,7 +57,7 @@ def prompt_main_menu() -> int:
     """Affiche le menu principal et retourne le choix de l'utilisateur."""
     print("\n=== Menu Principal ===")
     print("1. Créer un tournoi")
-    print("2. Gerer un tournois")
+    print("2. Gérer un tournois")
     print("3. Afficher les rapports")
     print("0. Quitter")
     

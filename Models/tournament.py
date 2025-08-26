@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from .player import Player
 from .chessRound import Round   
 
@@ -22,6 +22,7 @@ class Tournament:
 
     def __post_init__(self):
         """Crée tous les rounds dès la création du tournoi."""
+        self.number_of_rounds = int(self.number_of_rounds) # Force la conversion en int
         if not self.rounds:  # éviter de recréer les rounds lors du chargement depuis JSON
             self.rounds = [Round(i + 1) for i in range(self.number_of_rounds)]
 
@@ -54,7 +55,7 @@ class Tournament:
 
     # Ajout des méthodes de sérialisation
     def to_record(self) -> Dict[str, Any]:
-        """Convertit le tournoi en dict sérialisable en JSON."""
+        """Convertit le tournoi en dictionnaire sérialisable en JSON."""
         return {
             "name": self.name,
             "location": self.location,
