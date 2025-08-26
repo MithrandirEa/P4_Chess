@@ -13,7 +13,8 @@ def ask_yes_no(message: str) -> bool:
         if answer in ('y','o', 'n'):
             return answer == 'o'
         print("Réponse invalide. Veuillez entrer 'o' pour oui ou 'n' pour non.")
-
+        
+""" Prompts pour la création de joueurs """        
 def prompt_player_fields() -> Dict[str, Optional[str]]:
     print("=== Création d'un nouveau joueur ===")
     name = input("Nom complet : ").strip()
@@ -26,7 +27,8 @@ def prompt_player_fields() -> Dict[str, Optional[str]]:
         "national_chess_id": national_chess_id,
         "address": address or None,
     }
-    
+
+""" Prompt pour la création de tournois """    
 def prompt_tournament_fields() -> Dict[str, Optional[str]]:
     print("=== Création d'un nouveau tournoi ===")
     name = input("Nom du tournoi : ").strip()
@@ -40,10 +42,14 @@ def prompt_tournament_fields() -> Dict[str, Optional[str]]:
         "location": location,
         "start_date": start_date,
         "end_date": end_date,
-        "number_of_rounds": int(number_of_rounds) if number_of_rounds.isdigit() else 4,
+        "number_of_rounds": int(number_of_rounds) if number_of_rounds.isdigit() else 4, # Je ne comprends pas comment résoudre le problème de typage. Voir avec Patrick
         "description": description or None,
     }
-    
+
+
+# ===================== Menus & Sous-menus ====================
+
+""" Prompt pour le menu principal """    
 def prompt_main_menu() -> int:
     """Affiche le menu principal et retourne le choix de l'utilisateur."""
     print("\n=== Menu Principal ===")
@@ -62,4 +68,22 @@ def prompt_main_menu() -> int:
         except ValueError:
             print("Entrée invalide. Veuillez entrer un nombre.")
             
+""" Prompt pour le sous-menu de gestion des tournois """    
+def prompt_tournament_management_menu() -> int:
+    """Affiche le menu de gestion des tournois et retourne le choix de l'utilisateur."""
+    print("\n=== Gestion des Tournois ===")
+    print("1. Ajouter des joueurs au tournoi")
+    print("2. Démarrer le tournoi")
+    print("3. Enregistrer les résultats des matchs")
+    print("4. Afficher le classement actuel")
+    print("0. Retour au menu principal")
     
+    while True:
+        try:
+            choice = int(input("Sélectionnez une option (0-4) : ").strip())
+            if choice in (0, 1, 2, 3, 4):
+                return choice
+            else:
+                print("Choix invalide. Veuillez entrer un nombre entre 0 et 4.")
+        except ValueError:
+            print("Entrée invalide. Veuillez entrer un nombre.")
