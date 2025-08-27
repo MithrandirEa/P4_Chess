@@ -7,7 +7,7 @@ from typing import List, Optional
 import random
 import json
 
-from constant import DB_TOURNAMENTS, DEFAULT_ENCODING
+from utils.constant import DB_TOURNAMENTS, DEFAULT_ENCODING
 from models import Tournament, Round, Match, Player
 
 class TournamentController:
