@@ -24,6 +24,24 @@ def ask_yes_no(message: str) -> bool:
 
 """ Prompts pour la création de joueurs """
 
+def prompt_add_player_mode() -> int:
+    """Demande si l'utilisateur veut ajouter un joueur à la main ou via un JSON."""
+    print("\n=== Ajouter des joueurs ===")
+    print("1. Ajouter manuellement")
+    print("2. Importer depuis un fichier JSON")
+    print("0. Retour")
+
+    while True:
+        try:
+            choice = int(input("Votre choix : ").strip())
+            if choice in (0, 1, 2):
+                return choice
+            else:
+                print("⚠️ Choix invalide. Entrez 0, 1 ou 2.")
+        except ValueError:
+            print("⚠️ Entrée invalide. Veuillez entrer un nombre.")
+
+
 def prompt_player_fields() -> Dict[str, Optional[str]]:
     print("=== Création d'un nouveau joueur ===")
     name = input("Nom complet : ").strip()

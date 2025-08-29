@@ -48,6 +48,30 @@ class TournamentController:
         self.save_tournaments()
         return player
 
+    def add_players_from_json(self, tournament, filepath: str):
+        """Ajoute plusieurs joueurs depuis un fichier JSON."""
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            # si le fichier contient une clé "players", on la prend
+            players_list = data.get("players", data)  
+
+            for player_data in players_list:
+                player = Player.from_record(player_data)
+                tournament.add_player(player)
+
+            self.save_tournaments()
+            return len(players_list)
+            
+        except FileNotFoundError:
+            print(f"Fichier {filepath} introuvable.")
+            return 0
+        except json.JSONDecodeError:
+            print("Erreur : le fichier JSON est mal formé.")
+            return 0
+
+
     def save_tournaments(self):
         """Sauvegarde la liste des tournois dans un fichier JSON."""
         with open(DB_TOURNAMENTS, "w", encoding=DEFAULT_ENCODING) as f:
