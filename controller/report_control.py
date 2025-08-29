@@ -1,4 +1,4 @@
-""" report_control.py - Contrôleur des rapports."""
+"""report_control.py - Contrôleur des rapports."""
 
 from __future__ import annotations
 from Models.tournament import Tournament

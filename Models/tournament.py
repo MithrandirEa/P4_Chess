@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict, Any
 from .player import Player
-from .chessRound import Round   
+from .chessRound import Round
 
 
 @dataclass
@@ -19,11 +19,14 @@ class Tournament:
     players: List[Player] = field(default_factory=list)
     rounds: List[Round] = field(default_factory=list)
     current_round: Optional[Round] = None
+    
 
     def __post_init__(self):
         """Crée tous les rounds dès la création du tournoi."""
-        self.number_of_rounds = int(self.number_of_rounds) # Force la conversion en int
-        if not self.rounds:  # éviter de recréer les rounds lors du chargement depuis JSON
+        self.number_of_rounds = int(self.number_of_rounds)  # Force la conversion en int
+        if (
+            not self.rounds
+        ):  # éviter de recréer les rounds lors du chargement depuis JSON
             self.rounds = [Round(i + 1) for i in range(self.number_of_rounds)]
 
     def add_player(self, player: Player):
@@ -48,9 +51,8 @@ class Tournament:
 
     def is_finished(self) -> bool:
         """Indique si le tournoi est terminé."""
-        return (
-            len(self.rounds) == self.number_of_rounds
-            and all(r.end_datetime is not None for r in self.rounds)
+        return len(self.rounds) == self.number_of_rounds and all(
+            r.end_datetime is not None for r in self.rounds
         )
 
     # Ajout des méthodes de sérialisation

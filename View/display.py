@@ -6,6 +6,7 @@ from models import Player
 
 # =========== AFFICHAGES ===========
 
+
 def show_player_added(ok: bool, name: str) -> None:
     if ok:
         print(f"Joueur « {name} » ajouté avec succès.")

@@ -27,8 +27,10 @@ class Round:
         return {
             "round_number": self.round_number,
             "start_datetime": self.start_datetime.isoformat(),
-            "end_datetime": self.end_datetime.isoformat() if self.end_datetime else None,
-            "matches": [m.to_tuple() for m in self.matches]
+            "end_datetime": (
+                self.end_datetime.isoformat() if self.end_datetime else None
+            ),
+            "matches": [m.to_tuple() for m in self.matches],
         }
 
     @staticmethod
@@ -36,8 +38,14 @@ class Round:
         """Reconstruit un Round depuis un dictionnaire."""
         matches = [Match.from_tuple(t) for t in data["matches"]]
         start_dt = datetime.fromisoformat(data["start_datetime"])
-        end_dt = datetime.fromisoformat(data["end_datetime"]) if data["end_datetime"] else None
-        return Round(round_number=data["round_number"],
-                     matches=matches,
-                     start_datetime=start_dt,
-                     end_datetime=end_dt)
+        end_dt = (
+            datetime.fromisoformat(data["end_datetime"])
+            if data["end_datetime"]
+            else None
+        )
+        return Round(
+            round_number=data["round_number"],
+            matches=matches,
+            start_datetime=start_dt,
+            end_datetime=end_dt,
+        )

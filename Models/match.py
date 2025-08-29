@@ -15,8 +15,10 @@ class Match:
 
     def to_tuple(self) -> Tuple[List[Any], List[Any]]:
         """Retourne la représentation sous forme de tuple sérialisable."""
-        return ([self.white_player.to_record(), self.white_player_score],
-                [self.black_player.to_record(), self.black_player_score])
+        return (
+            [self.white_player.to_record(), self.white_player_score],
+            [self.black_player.to_record(), self.black_player_score],
+        )
 
     @staticmethod
     def from_tuple(data: Tuple[List[Any], List[Any]]) -> "Match":

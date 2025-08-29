@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def validate_cast(prompt: str, expected_type, default=None):
     """
     Demande une saisie à l'utilisateur et la convertit vers le type attendu.

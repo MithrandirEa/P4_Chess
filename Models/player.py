@@ -11,7 +11,9 @@ class Player:
     birthdate: str
     national_chess_id: str
     address: Optional[str] = None
-
+    
+    
+           
     def to_record(self) -> Dict[str, Any]:
         return {
             "name": self.name,
@@ -27,4 +29,5 @@ class Player:
             birthdate=record.get("birthdate", ""),
             national_chess_id=record.get("national_chess_id", ""),
             address=record.get("address"),
+                      
         )
