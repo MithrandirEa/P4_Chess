@@ -14,7 +14,7 @@ PY_VENV := $(BIN)/python
 PIP_VENV := $(PY_VENV) -m pip
 
 # Sources
-SRC_PATHS := controller models view utils main.py
+SRC_PATHS := controllers models views constant.py type_validation.py main.py
 
 .PHONY: help
 help: ## Affiche cette aide

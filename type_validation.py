@@ -26,11 +26,11 @@ def validate_cast(prompt: str, expected_type, default=None):
 
         except ValueError:
             # Message d'erreur clair selon le type attendu
-            if expected_type == int:
+            if expected_type is int:
                 print("Valeur invalide. On attend un nombre entier (ex: 4).")
-            elif expected_type == float:
+            elif expected_type is float:
                 print("Valeur invalide. On attend un nombre décimal (ex: 0.5).")
-            elif expected_type == datetime:
+            elif expected_type is datetime:
                 print("Date invalide. Format attendu : YYYY-MM-DD (ex: 2025-08-01).")
             else:
                 print(f"Valeur invalide. On attend un type {expected_type.__name__}.")

@@ -57,6 +57,7 @@ class TournamentController:
         except Exception as e:
             print(f"⚠️ Erreur import JSON : {e}")
             return 0
+        
     def start_tournament(self, tournament):
         """Create the first round with random pairing of players."""
         if tournament.rounds and any(
@@ -95,7 +96,7 @@ class TournamentController:
         tournament.current_round = round1
         print("✅ Premier round créé et joueurs appariés.")
 
-    def saisir_resultats_round_en_cours(self, tournament):
+    def write_current_round_result(self, tournament):
         round = tournament.get_current_round()
         if not round:
             print("⚠️ Aucun round en cours.")
@@ -103,7 +104,7 @@ class TournamentController:
         print(f"Round en cours : {round.name}")
         for match in round.matches:
             print(f"Match {match.match_id} : {match.white_id} vs {match.black_id} (résultat actuel : {match.result})")
-            result = input("Résultat (1-0, 0-1, 1/2-1/2 ou vide pour laisser inchangé) : ").strip()
+            result = input("Résultat (1 (win), 0 (lose), 0.5 (draw) ou vide pour laisser inchangé) : ").strip()
             if result:
-                controller.set_match_result(tournament, round, match, result)
+                controllers.set_match_result(tournament, round, match, result)
         print("✅ Résultats mis à jour.")
