@@ -12,8 +12,7 @@ class Player:
     national_chess_id: str
     address: Optional[str] = None
     tournament_score_value: float = 0.0  # Score dans le tournoi en cours
-    
-               
+
     def to_record(self) -> Dict[str, Any]:
         return {
             "name": self.name,
@@ -29,5 +28,4 @@ class Player:
             birthdate=record.get("birthdate", ""),
             national_chess_id=record.get("national_chess_id", ""),
             address=record.get("address"),
-                      
         )

@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
-class PlayerView: #TODO: Grouper TournamentView et PlayerView dans le même script - créer un objet FormView dont hériterons TournamentView et PlayerView
+
+class PlayerView:  # TODO: Grouper TournamentView et PlayerView dans le même script - créer un objet FormView dont hériterons TournamentView et PlayerView
     def ask_player_fields(self) -> Dict[str, Optional[str]]:
         print("\n=== Création d’un joueur ===")
         name = input("Nom complet : ").strip()

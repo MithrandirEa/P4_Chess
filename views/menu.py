@@ -1,4 +1,4 @@
-class Menu: 
+class Menu:
     def __init__(self, title: str):
         self.title = title
         self.options = {}
@@ -25,5 +25,3 @@ class Menu:
                     print("⚠️ Choix invalide.")
             except ValueError:
                 print("⚠️ Entrée invalide.")
-
-

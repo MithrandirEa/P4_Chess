@@ -1,9 +1,9 @@
 import json
 import random
 
-from constant import DB_TOURNAMENTS, DEFAULT_ENCODING
+from constant import DB_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
 from models import Tournament, Player, Round, Match
-
+from controllers.saving_control import save_player
 
 class TournamentController:
     def __init__(self):
@@ -22,22 +22,28 @@ class TournamentController:
         except (FileNotFoundError, json.JSONDecodeError):
             self.tournaments = []
 
-    def create_tournament(self, name, location, start_date, end_date, number_of_rounds, description=None):
-        tournament = Tournament(name, location, start_date, end_date, number_of_rounds, description)
+    def create_tournament(
+        self, name, location, start_date, end_date, number_of_rounds, description=None
+    ):
+        tournament = Tournament(
+            name, location, start_date, end_date, number_of_rounds, description
+        )
         self.tournaments.append(tournament)
         self.save_tournaments()
         return tournament
 
     def list_tournaments(self):
         return self.tournaments
-
+    
+    @save_player("Data/Chess_Players.json")
     def add_player_to_tournament(self, tournament, player_data: dict):
         player = Player.from_record(player_data)
         tournament.add_player(player)
         self.save_tournaments()
         return player
 
-    def add_players_from_json(self, tournament, filepath: str): # Ajout de la vérification d'existance
+    @save_player("Data/Chess_Players.json")
+    def add_players_from_json(self, tournament, filepath: str): # Ajout de la vérification de doublons
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -57,11 +63,12 @@ class TournamentController:
             print(f"⚠️ Erreur import JSON : {e}")
             return 0
         
+
     def start_tournament(self, tournament):
         """Initialise le 1er round en appariant aléatoirement les joueurs (si vide)."""
-        #TODO: Ajouter la réinitialisation à 0 de l'attribut tournament_score_value de chaque joueur.
-        #TODO: Ajouter la gestion de la parité de joueurs.
-        
+        # TODO: Ajouter la réinitialisation à 0 de l'attribut tournament_score_value de chaque joueur.
+        # TODO: Ajouter la gestion de la parité de joueurs.
+
         first_round = tournament.get_round(1)
 
         if first_round.matches:
@@ -76,12 +83,12 @@ class TournamentController:
         random.shuffle(players)
         matches = []
         for i in range(0, len(players) - 1, 2):
-            p1, p2 = players[i], players[i+1]
+            p1, p2 = players[i], players[i + 1]
             match = Match(
                 white_player=p1.name,
                 white_player_score=0.0,
                 black_player=p2.name,
-                black_player_score=0.0
+                black_player_score=0.0,
             )
             matches.append(match)
 
@@ -95,12 +102,12 @@ class TournamentController:
         tournament.current_round = first_round
         self.save_tournaments()
         print(f"✅ Premier round initialisé avec {len(matches)} matchs.")
-        
+
     def record_current_round_results(self, tournament):
         """Permet de saisir les scores des matchs du round en cours."""
-        #TODO: Ajouter une demande de validation à chaque saisie
-        #TODO: Ajouter la vérification que la somme des scores de chaque match est bien égale à 1 (1-0, 0-1, 0.5-0.5)
-        #TODO: Ajouter la mise à jour des scores des joueurs (attribut tournament_score_value) à la méthoderecord_current_round_results
+        # TODO: Ajouter une demande de validation à chaque saisie
+        # TODO: Ajouter la vérification que la somme des scores de chaque match est bien égale à 1 (1-0, 0-1, 0.5-0.5)
+        # TODO: Ajouter la mise à jour des scores des joueurs (attribut tournament_score_value) à la méthoderecord_current_round_results
         current_round = tournament.get_current_round()
         if not current_round:
             print("⚠️ Aucun round en cours.")
@@ -139,7 +146,8 @@ class TournamentController:
         current_round.end_round()
         self.save_tournaments()
         print(f"\n✅ Résultats du Round {current_round.round_number} enregistrés.")
-#TODO: Ajouter une logique pour déclencher automatiquement à la clôture d'un round le système d'appairage général(Swiss system) pour les rounds suivants.
+
+    # TODO: Ajouter une logique pour déclencher automatiquement à la clôture d'un round le système d'appairage général(Swiss system) pour les rounds suivants.
 
     def write_current_round_result(self, tournament):
         round = tournament.get_current_round()
@@ -148,8 +156,12 @@ class TournamentController:
             return
         print(f"Round en cours : {round.name}")
         for match in round.matches:
-            print(f"Match {match.match_id} : {match.white_id} vs {match.black_id} (résultat actuel : {match.result})")
-            result = input("Résultat (1 (win), 0 (lose), 0.5 (draw) ou vide pour laisser inchangé) : ").strip()
+            print(
+                f"Match {match.match_id} : {match.white_id} vs {match.black_id} (résultat actuel : {match.result})"
+            )
+            result = input(
+                "Résultat (1 (win), 0 (lose), 0.5 (draw) ou vide pour laisser inchangé) : "
+            ).strip()
             if result:
                 controllers.set_match_result(tournament, round, match, result)
         print("✅ Résultats mis à jour.")

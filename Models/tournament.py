@@ -19,7 +19,6 @@ class Tournament:
     players: List[Player] = field(default_factory=list)
     rounds: List[Round] = field(default_factory=list)
     current_round: Optional[Round] = None
-    
 
     def __post_init__(self):
         """Crée tous les rounds dès la création du tournoi."""

@@ -17,7 +17,7 @@ class Round:
     def add_match(self, match: Match):
         """Ajoute un match au round."""
         self.matches.append(match)
-        
+
     def end_round(self):
         """Marque la fin du round en enregistrant la date et l'heure de fin."""
         self.end_datetime = datetime.now()

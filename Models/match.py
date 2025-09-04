@@ -25,8 +25,8 @@ class Match:
         """Reconstruit un Match depuis un tuple de deux listes [nom, score]."""
         p1, p2 = data
         return Match(
-            white_player=p1[0],          # nom du joueur (str)
-            white_player_score=p1[1],    # score (float)
+            white_player=p1[0],  # nom du joueur (str)
+            white_player_score=p1[1],  # score (float)
             black_player=p2[0],
-            black_player_score=p2[1]
+            black_player_score=p2[1],
         )
