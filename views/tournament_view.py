@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from typing import Dict, Optional
 from type_validation import validate_cast

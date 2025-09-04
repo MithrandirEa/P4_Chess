@@ -2,7 +2,6 @@ import json
 import random
 
 from constant import DB_TOURNAMENTS, DEFAULT_ENCODING
-
 from models import Tournament, Player, Round, Match
 
 
@@ -59,42 +58,88 @@ class TournamentController:
             return 0
         
     def start_tournament(self, tournament):
-        """Create the first round with random pairing of players."""
-        if tournament.rounds and any(
-            all(m.white_player_score != 0 or m.black_player_score != 0 for m in r.matches)
-            for r in tournament.rounds
-        ):
-            print("⚠️ Le tournoi a déjà commencé.")
+        """Initialise le 1er round en appariant aléatoirement les joueurs (si vide)."""
+        #TODO: Ajouter la réinitialisation à 0 de l'attribut tournament_score_value de chaque joueur.
+        #TODO: Ajouter la gestion de la parité de joueurs.
+        
+        first_round = tournament.get_round(1)
+
+        if first_round.matches:
+            print("Le premier round contient déjà des matchs.")
             return
 
         players = tournament.players[:]
         if len(players) < 2:
-            print("⚠️ Pas assez de joueurs pour démarrer un round.")
+            print("Pas assez de joueurs.")
             return
 
         random.shuffle(players)
         matches = []
         for i in range(0, len(players) - 1, 2):
-            white = players[i]
-            black = players[i + 1]
+            p1, p2 = players[i], players[i+1]
             match = Match(
-                white_player=white,
-                white_player_score=0,
-                black_player=black,
-                black_player_score=0
+                white_player=p1.name,
+                white_player_score=0.0,
+                black_player=p2.name,
+                black_player_score=0.0
             )
             matches.append(match)
-        # Si nombre impair, le dernier joueur ne joue pas ce round
-        if len(players) % 2 == 1:
-            print(f"⚠️ Le joueur {players[-1].name} n'a pas d'adversaire ce round.")
 
-        round1 = Round(
-            round_number=1,
-            matches=matches
-        )
-        tournament.rounds.append(round1)
-        tournament.current_round = round1
-        print("✅ Premier round créé et joueurs appariés.")
+        if len(players) % 2 == 1:
+            print(f"{players[-1].name} n’a pas d’adversaire ce round.")
+
+        # Ajouter dans le Round
+        for m in matches:
+            first_round.add_match(m)
+
+        tournament.current_round = first_round
+        self.save_tournaments()
+        print(f"✅ Premier round initialisé avec {len(matches)} matchs.")
+        
+    def record_current_round_results(self, tournament):
+        """Permet de saisir les scores des matchs du round en cours."""
+        #TODO: Ajouter une demande de validation à chaque saisie
+        #TODO: Ajouter la vérification que la somme des scores de chaque match est bien égale à 1 (1-0, 0-1, 0.5-0.5)
+        #TODO: Ajouter la mise à jour des scores des joueurs (attribut tournament_score_value) à la méthoderecord_current_round_results
+        current_round = tournament.get_current_round()
+        if not current_round:
+            print("⚠️ Aucun round en cours.")
+            return
+
+        print(f"\n=== Saisie des résultats du Round {current_round.round_number} ===")
+
+        for idx, match in enumerate(current_round.matches, start=1):
+            print(f"\nMatch {idx}: {match.white_player} vs {match.black_player}")
+
+            # Saisie score joueur blanc
+            while True:
+                try:
+                    score_white = float(input(f"Score {match.white_player} : ").strip())
+                    if score_white in (0.0, 0.5, 1.0):
+                        match.white_player_score = score_white
+                        break
+                    else:
+                        print("⚠️ Score invalide. Autorisés : 0, 0.5, 1.")
+                except ValueError:
+                    print("⚠️ Entrez un nombre (0, 0.5, 1).")
+
+            # Saisie score joueur noir
+            while True:
+                try:
+                    score_black = float(input(f"Score {match.black_player} : ").strip())
+                    if score_black in (0.0, 0.5, 1.0):
+                        match.black_player_score = score_black
+                        break
+                    else:
+                        print("⚠️ Score invalide. Autorisés : 0, 0.5, 1.")
+                except ValueError:
+                    print("⚠️ Entrez un nombre (0, 0.5, 1).")
+
+        # Marquer le round comme terminé
+        current_round.end_round()
+        self.save_tournaments()
+        print(f"\n✅ Résultats du Round {current_round.round_number} enregistrés.")
+#TODO: Ajouter une logique pour déclencher automatiquement à la clôture d'un round le système d'appairage général(Swiss system) pour les rounds suivants.
 
     def write_current_round_result(self, tournament):
         round = tournament.get_current_round()

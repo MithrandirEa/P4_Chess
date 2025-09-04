@@ -44,9 +44,11 @@ class Tournament:
         raise ValueError("Numéro de round invalide.")
 
     def get_current_round(self) -> Optional[Round]:
-        """Retourne la ronde en cours."""
-        if self.rounds and self.rounds[-1].end_datetime is None:
-            return self.current_round
+        """Retourne le round en cours (le premier non terminé)."""
+        for rnd in self.rounds:
+            if rnd.end_datetime is None:
+                self.current_round = rnd
+                return rnd
         return None
 
     def is_finished(self) -> bool:
