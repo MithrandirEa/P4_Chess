@@ -2,7 +2,7 @@ from controllers.tournaments_control import TournamentController
 from views.menu import Menu
 from views.tournament_view import TournamentView
 from views.player_view import PlayerView
-from views.display import display_tournament_list
+from views.display import display_tournament_list, display_chessplayers_list
 
 def manage_tournament(
     controller: TournamentController,
@@ -30,11 +30,11 @@ def manage_tournament(
             tournament, PlayerView().ask_player_fields()
         ),
     )
-    manage_menu.add_option(
+    manage_menu.add_option(#TODO: Prévoir saisie ou sélection dans navigateur
         2,
         "Importer joueurs JSON",
         lambda: controller.add_players_from_json(tournament, "Data/FakePlayers.json"),
-    )  #TODO: Prévoir saisie ou sélection dans navigateur
+    )  
 
     manage_menu.add_option(
         3, "Afficher les joueurs", lambda: [print(p.name) for p in tournament.players]
@@ -58,19 +58,19 @@ def display_report():
     reports_menu.add_option(
         1,
         "Liste des joueurs de la FFE (ordre alphabétique)",
-        lambda: print("⚠️ À implémenter"),
+        lambda: display_chessplayers_list(),
     )
     reports_menu.add_option(
         2, "Liste de tous les tournois", lambda: display_tournament_list()  )
     reports_menu.add_option(
         3,
         "Liste des joueurs d'un tournois (ordre alphabétique)",
-        lambda: print("⚠️ À implémenter"),
+        lambda: display_tournament_players_list(),#TODO: permettre la selection du tournoi cf FIXME
     )
     reports_menu.add_option(
         4,
         "Liste des rounds et matchs d'un tournois",
-        lambda: lambda: print("⚠️ À implémenter"),
+        lambda: lambda: print("⚠️ À implémenter"),#TODO: Implémenter l'affichage des rounds et matchs d'un tournois. Penser à selectionner le tournoi (cf FIXME dans display.py)
     )
     reports_menu.add_option(0, "Retour", None)
     reports_menu.run()
@@ -88,9 +88,7 @@ def main():
     )
     main_menu.add_option(2, "Gérer un tournoi", lambda: manage_tournament(controller))
     main_menu.add_option(3, "Afficher les rapports", lambda: display_report())
-    # TODO: Ajouter l'option pour afficher les resultats du tournois. cf. display.py. Se renseigner sur l'affichage de tableau en CLI
     main_menu.add_option(0, "Quitter", None)
-
     main_menu.run()
 
 

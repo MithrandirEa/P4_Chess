@@ -17,7 +17,7 @@ class Menu:
             try:
                 choice = int(input("Votre choix : ").strip())
                 if choice in self.options:
-                    label, action = self.options[choice]
+                    _, action = self.options[choice]
                     if action is None:  # Quitter ou Retour
                         break
                     action()

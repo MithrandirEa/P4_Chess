@@ -1,8 +1,8 @@
 import json
 import random
 
-from constant import DB_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
-from models import Tournament, Player, Round, Match
+from constant import DB_LICENSED_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
+from models import Tournament, Player, Match
 from controllers.saving_control import save_player
 
 class TournamentController:
@@ -35,14 +35,14 @@ class TournamentController:
     def list_tournaments(self):
         return self.tournaments
     
-    @save_player("Data/Chess_Players.json")
+    @save_player(DB_LICENSED_PLAYERS)
     def add_player_to_tournament(self, tournament, player_data: dict):
         player = Player.from_record(player_data)
         tournament.add_player(player)
         self.save_tournaments()
         return player
 
-    @save_player("Data/Chess_Players.json")
+    @save_player(DB_LICENSED_PLAYERS)
     def add_players_from_json(self, tournament, filepath: str): # Ajout de la vérification de doublons
         try:
             with open(filepath, "r", encoding="utf-8") as f:

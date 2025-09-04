@@ -1,6 +1,7 @@
-import json, os
+import json
+import os
 from functools import wraps
-from models.player import Player  # adapte le chemin si nécessaire
+
 
 def save_player(path_file):
     """Fonction décoratrice pour sauvegarder les joueurs dans un fichier JSON qui servira de base de données."""
