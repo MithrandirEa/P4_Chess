@@ -4,7 +4,6 @@ import json
 from tabulate import tabulate
 from pathlib import Path
 from constant import DB_LICENSED_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
-
  
 def display_tournament_list():
     """Affiche la liste des tournois sous forme de tableau."""
@@ -40,9 +39,8 @@ def display_tournament_list():
 
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
     
-def display_tournament_players_list():
+def display_tournament_players_list(tournament):
     """Affiche la liste des joueurs d'un tournoi sous forme de tableau."""
-    #FIXME: permettre la selection du tournoi
     players = tournament.players
     if not players:
         print("⚠️ Aucun joueur dans ce tournoi.")

@@ -2,7 +2,7 @@ from controllers.tournaments_control import TournamentController
 from views.menu import Menu
 from views.tournament_view import TournamentView
 from views.player_view import PlayerView
-from views.display import display_tournament_list, display_chessplayers_list
+from views.display import display_tournament_list, display_tournament_players_list, display_chessplayers_list
 
 def manage_tournament(
     controller: TournamentController,
@@ -37,9 +37,8 @@ def manage_tournament(
     )  
 
     manage_menu.add_option(
-        3, "Afficher les joueurs", lambda: [print(p.name) for p in tournament.players]
+        3, "Liste des joueurs du tournoi", lambda: display_tournament_players_list(tournament),
     )
-
     manage_menu.add_option(
         4, "Initier un tournois", lambda: controller.start_tournament(tournament)
     )
