@@ -1,38 +1,61 @@
+# views/view_models.py
+from __future__ import annotations
+from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Dict, Optional
-from type_validation import validate_cast
+from typing import Dict, Optional, Any, Callable
+from type_validation import validate_cast  # déjà utilisé dans ton projet
 
-class FormView:
-    pass
 
-class TournamentView:
-    def ask_tournament_fields(self) -> Dict[str, Optional[str]]:
+class FormView(ABC):
+    """Vue de formulaire générique pour la CLI."""
+
+    # Helpers génériques
+    def ask_str(self, label: str, default: Optional[str] = None) -> str:
+        val = validate_cast(label, str, default=default or "")
+        return str(val)
+
+    def ask_optional_str(self, label: str) -> Optional[str]:
+        val = validate_cast(label, str, default="")
+        return val or None
+
+    def ask_int(self, label: str, default: Optional[int] = None) -> int:
+        val = validate_cast(label, int, default=default)
+        return int(val)
+
+    def ask_date_iso(self, label: str) -> Optional[str]:
+        dt: Optional[datetime] = validate_cast(label, datetime)
+        return dt.strftime("%Y-%m-%d") if dt else None
+
+    # Hook pour validations spécifiques si besoin
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        return data
+
+    @abstractmethod
+    def ask_fields(self) -> Dict[str, Optional[str]]:
+        """Chaque sous-classe retourne un dict prêt à passer au controller."""
+        ...
+
+
+class TournamentView(FormView):
+    def ask_fields(self) -> Dict[str, Optional[str]]:
         print("\n=== Création d’un nouveau tournoi ===")
-        name = validate_cast("Nom du tournoi : ", str)
-        location = validate_cast("Lieu : ", str, default="")
-        start_date = validate_cast("Date de début (YYYY-MM-DD) : ", datetime)
-        end_date = validate_cast("Date de fin (YYYY-MM-DD) : ", datetime)
-        number_of_rounds = validate_cast(
-            "Nombre de rounds (par défaut 4) : ", int, default=4
-        )
-        description = validate_cast("Description (optionnelle) : ", str, default="")
-
-        return {
-# FIXME:gérer les problèmes de type
-            "name": name,
-            "location": location,
-            "start_date": start_date.strftime("%Y-%m-%d") if start_date else None,
-            "end_date": end_date.strftime("%Y-%m-%d") if end_date else None,
-            "number_of_rounds": (
-                str(number_of_rounds) if number_of_rounds is not None else None
+        data: Dict[str, Optional[str]] = {
+            "name": self.ask_str("Nom du tournoi : "),
+            "location": self.ask_str("Lieu : ", default=""),
+            "start_date": self.ask_date_iso("Date de début (YYYY-MM-DD) : "),
+            "end_date": self.ask_date_iso("Date de fin (YYYY-MM-DD) : "),
+            # on stocke un str si ton JSON attend du texte, sinon remplace par int
+            "number_of_rounds": str(
+                self.ask_int("Nombre de rounds (par défaut 4) : ", default=4)
             ),
-            "description": description or None,
+            "description": self.ask_optional_str("Description (optionnelle) : "),
         }
-        
-def select_tournament(controller):
-    """Permet à l'utilisateur de sélectionner un tournoi existant"""
-    tournaments = controller.list_tournaments()
+        return self.validate(data)
 
+
+def select_tournament(controller):
+    """Sélection d’un tournoi existant depuis le controller."""
+    tournaments = controller.list_tournaments()
     if not tournaments:
         print("⚠ Aucun tournoi disponible.")
         return None
@@ -43,28 +66,20 @@ def select_tournament(controller):
 
     try:
         choice = int(input("Choisissez un tournoi (numéro) : ").strip())
-        if 1 <= choice <= len(tournaments):
-            return tournaments[choice - 1]
-        else:
-            print("⚠ Choix invalide.")
-            return None
+        return tournaments[choice - 1] if 1 <= choice <= len(tournaments) else None
     except ValueError:
         print("⚠ Entrée invalide.")
         return None
 
-        
 
-class PlayerView:
-    def ask_player_fields(self) -> Dict[str, Optional[str]]:
+class PlayerView(FormView):
+    def ask_fields(self) -> Dict[str, Optional[str]]:
         print("\n=== Création d’un joueur ===")
-        name = input("Nom complet : ").strip()
-        birthdate = input("Date de naissance (YYYY-MM-DD) : ").strip()
-        national_chess_id = input("Identifiant fédéral : ").strip()
-        address = input("Adresse (optionnelle) : ").strip()
-
-        return {
-            "name": name,
-            "birthdate": birthdate,
-            "national_chess_id": national_chess_id,
-            "address": address or None,
-        }
+        return self.validate(
+            {
+                "name": self.ask_str("Nom complet : "),
+                "birthdate": self.ask_str("Date de naissance (YYYY-MM-DD) : "),
+                "national_chess_id": self.ask_str("Identifiant fédéral : "),
+                "address": self.ask_optional_str("Adresse (optionnelle) : "),
+            }
+        )

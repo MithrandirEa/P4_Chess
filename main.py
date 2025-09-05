@@ -2,13 +2,14 @@
 from controllers.tournaments_control import TournamentController
 from views import (
     Menu,
-    TournamentView, select_tournament, PlayerView,
+    TournamentView,
+    select_tournament,
+    PlayerView,
     display_tournament_list,
     display_tournament_players_list,
     display_tournament_rounds_list,
     display_chessplayers_list,
 )
-
 
 
 def manage_tournament(
@@ -34,7 +35,7 @@ def manage_tournament(
         1,
         "Ajouter un joueur",
         lambda: controller.add_player_to_tournament(
-            tournament, PlayerView().ask_player_fields()
+            tournament, PlayerView().ask_fields()
         ),
     )
     manage_menu.add_option(  # TODO: Prévoir saisie ou sélection dans navigateur
@@ -71,7 +72,6 @@ def display_report(controller):
     reports_menu.add_option(
         2, "Liste de tous les tournois", lambda: display_tournament_list()
     )
-    # FIXME: faire fonctionner la selection de tournoi
     reports_menu.add_option(
         3,
         "Liste des joueurs d'un tournoi (ordre alphabétique)",
@@ -103,7 +103,7 @@ def main():
     main_menu.add_option(
         1,
         "Créer un tournoi",
-        lambda: controller.create_tournament(**tview.ask_tournament_fields()),
+        lambda: controller.create_tournament(**tview.ask_fields()),
     )
     main_menu.add_option(2, "Gérer un tournoi", lambda: manage_tournament(controller))
     main_menu.add_option(3, "Afficher les rapports", lambda: display_report(controller))

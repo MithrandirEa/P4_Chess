@@ -21,9 +21,7 @@ class TournamentController:
         # Sauvegarde backup
         import shutil
 
-        backup_file = (
-            f"{DB_TOURNAMENTS}.bak"
-        )
+        backup_file = f"{DB_TOURNAMENTS}.bak"
         shutil.copy(DB_TOURNAMENTS, backup_file)
 
         # Sauvegarde principale
@@ -122,6 +120,8 @@ class TournamentController:
         tournament.current_round = first_round
         self.save_tournaments()
         print(f"✅ Premier round initialisé avec {len(matches)} matchs.")
+
+#TODO: definir méthode play_next_round
 
     def save_current_round_results(self, tournament):
         """Saisie des résultats du round en cours et sauvegarde."""

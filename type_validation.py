@@ -1,7 +1,5 @@
 from datetime import datetime
 
-# FIXME: Affichage caractères spéciaux (ex: accents) dans la console Windows
-
 
 def validate_cast(prompt: str, expected_type, default=None):
     """
