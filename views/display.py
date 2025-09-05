@@ -1,4 +1,4 @@
-#TODO: REFACTORING - Décorateur ?
+# TODO: REFACTORING - Décorateur ?
 
 """display.py - CLI - Affichage des rapports."""
 import json
@@ -6,7 +6,8 @@ import json
 from tabulate import tabulate
 from pathlib import Path
 from constant import DB_LICENSED_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
- 
+
+
 def display_tournament_list():
     """Affiche la liste des tournois sous forme de tableau."""
     if not DB_TOURNAMENTS.exists():
@@ -27,20 +28,47 @@ def display_tournament_list():
     # Préparer les données pour tabulate
     table = []
     for idx, t in enumerate(data, start=1):
-        table.append([
-            idx,
-            t.get("name", ""),
-            t.get("location", ""),
-            t.get("start_date", ""),
-            t.get("end_date", ""),
-            t.get("number_of_rounds", 0),
-            len(t.get("players", [])),
-        ])
+        table.append(
+            [
+                idx,
+                t.get("name", ""),
+                t.get("location", ""),
+                t.get("start_date", ""),
+                t.get("end_date", ""),
+                t.get("number_of_rounds", 0),
+                len(t.get("players", [])),
+            ]
+        )
 
     headers = ["#", "Nom", "Lieu", "Début", "Fin", "Rounds", "Nb Joueurs"]
 
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
-    
+
+
+def display_tournament_rounds_list(tournament):
+    """Affiche la liste des rounds d'un tournoi sous forme de tableau."""
+    rnd = tournament.rounds
+    matches = rnd.matches if rnd else []
+    if not rnd:
+        print("⚠️ Aucun round dans ce tournoi.")
+        return
+
+    # Préparer les données pour tabulate
+    table = []
+    for idx, r in enumerate(rnd, start=1):
+        table.append(
+            [
+                idx,
+                r.round_number,
+                r.start_datetime,
+                r.end_datetime if r.end_datetime else "En cours",
+                r.matches,
+            ]
+        )
+    headers = ["#", "Round", "Début", "Fin", "Matches"]
+    print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
+
+
 def display_tournament_players_list(tournament):
     """Affiche la liste des joueurs d'un tournoi sous forme de tableau."""
     players = tournament.players
@@ -51,16 +79,25 @@ def display_tournament_players_list(tournament):
     # Préparer les données pour tabulate
     table = []
     for idx, p in enumerate(players, start=1):
-        table.append([
-            idx,
-            p.name,
-            p.birthdate,
-            p.national_chess_id,
-            p.address or "",
-            p.tournament_score_value,
-        ])
-    headers = ["name", "birthdate", "national_chess_id", "address", "tournament_score_value"]
+        table.append(
+            [
+                idx,
+                p.name,
+                p.birthdate,
+                p.national_chess_id,
+                p.address or "",
+                p.tournament_score_value,
+            ]
+        )
+    headers = [
+        "name",
+        "birthdate",
+        "national_chess_id",
+        "address",
+        "tournament_score_value",
+    ]
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
+
 
 def display_chessplayers_list():
     """Affiche la liste des joueurs d'échecs sous forme de tableau."""
@@ -84,12 +121,14 @@ def display_chessplayers_list():
     # Préparer les données pour tabulate
     table = []
     for idx, p in enumerate(players, start=1):
-        table.append([
-            idx,
-            p.get("name", ""),
-            p.get("birthdate", ""),
-            p.get("national_chess_id", ""),
-            p.get("address", ""),
-        ])
+        table.append(
+            [
+                idx,
+                p.get("name", ""),
+                p.get("birthdate", ""),
+                p.get("national_chess_id", ""),
+                p.get("address", ""),
+            ]
+        )
     headers = ["name", "birthdate", "national_chess_id", "address"]
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))

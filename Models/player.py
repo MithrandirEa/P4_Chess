@@ -31,7 +31,7 @@ class Player:
             address=record.get("address", None),
             tournament_score_value=record.get("tournament_score_value", 0.0),
         )
-    
+
     def __str__(self) -> str:
         """Affiche seulement les infos contenu ici"""
         return self.name

@@ -3,8 +3,9 @@ import random
 
 from constant import DB_LICENSED_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
 from models import Tournament, Player, Match
-from controllers.saving_control import save_player
-from controllers.rounds_control import record_current_round_results
+from controllers import save_player
+from controllers import record_current_round_results
+
 
 class TournamentController:
     def __init__(self):
@@ -14,19 +15,21 @@ class TournamentController:
     def save_tournaments(self):
         """Sauvegarde tous les tournois en JSON, avec backup de sécurité."""
         if not self.tournaments:
-            print("⚠️ Aucun tournoi à sauvegarder, annulation de l'écriture.")
+            print("⚠️ Aucun tournoi à sauvegarder.")
             return
 
         # Sauvegarde backup
-        import shutil, datetime
-        backup_file = f"{DB_TOURNAMENTS}.bak_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        import shutil
+
+        backup_file = (
+            f"{DB_TOURNAMENTS}.bak"
+        )
         shutil.copy(DB_TOURNAMENTS, backup_file)
 
         # Sauvegarde principale
         with open(DB_TOURNAMENTS, "w", encoding=DEFAULT_ENCODING) as f:
             json.dump([t.to_record() for t in self.tournaments], f, indent=4)
         print(f"✅ Tournois sauvegardés ({len(self.tournaments)} tournois)")
-
 
     def load_tournaments(self):
         try:
@@ -48,7 +51,7 @@ class TournamentController:
 
     def list_tournaments(self):
         return self.tournaments
-    
+
     @save_player(DB_LICENSED_PLAYERS)
     def add_player_to_tournament(self, tournament, player_data: dict):
         player = Player.from_record(player_data)
@@ -57,7 +60,9 @@ class TournamentController:
         return player
 
     @save_player(DB_LICENSED_PLAYERS)
-    def add_players_from_json(self, tournament, filepath: str): # Ajout de la vérification de doublons
+    def add_players_from_json(
+        self, tournament, filepath: str
+    ):  # Ajout de la vérification de doublons
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -76,14 +81,13 @@ class TournamentController:
         except Exception as e:
             print(f"⚠️ Erreur import JSON : {e}")
             return 0
-        
 
     def start_tournament(self, tournament):
         """Initialise le 1er round en appariant aléatoirement les joueurs (si vide)."""
 
         for player in tournament.players:
             player.tournament_score_value = 0.0
-            
+
         first_round = tournament.get_round(1)
 
         if first_round.matches:
@@ -108,7 +112,9 @@ class TournamentController:
             matches.append(match)
 
         if len(players) % 2 == 1:
-            print(f"{players[-1].name} n’a pas d’adversaire ce round.") # TODO: Ajouter meilleure gestion de la parité de joueurs.
+            print(
+                f"{players[-1].name} n’a pas d’adversaire ce round."
+            )  # TODO: Ajouter meilleure gestion de la parité de joueurs.
         # Ajouter dans le Round
         for m in matches:
             first_round.add_match(m)

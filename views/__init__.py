@@ -1,6 +1,5 @@
 from .menu import Menu
-from .tournament_view import TournamentView, select_tournament
-from .player_view import PlayerView
+from .view_models import TournamentView, PlayerView, select_tournament
 from .display import display_tournament_list
 from .display import display_tournament_rounds_list
 from .display import display_tournament_players_list

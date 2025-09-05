@@ -20,11 +20,16 @@ class Match:
     @staticmethod
     def from_tuple(data: tuple[list, list], players: list[Player]) -> "Match":
         """Reconstruit un Match depuis un tuple + la liste des joueurs du tournoi."""
+        data = tuple(data)
         p1, p2 = data
 
         # Retrouver l'objet Player existant ou le recréer
-        white = next((p for p in players if p.name == p1[0]["name"]), Player.from_record(p1[0]))
-        black = next((p for p in players if p.name == p2[0]["name"]), Player.from_record(p2[0]))
+        white = next(
+            (p for p in players if p.name == p1[0]["name"]), Player.from_record(p1[0])
+        )
+        black = next(
+            (p for p in players if p.name == p2[0]["name"]), Player.from_record(p2[0])
+        )
 
         return Match(
             white_player=white,

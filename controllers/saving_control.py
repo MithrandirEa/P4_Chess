@@ -5,6 +5,7 @@ from functools import wraps
 
 def save_player(path_file):
     """Fonction décoratrice pour sauvegarder les joueurs dans un fichier JSON qui servira de base de données."""
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -39,5 +40,7 @@ def save_player(path_file):
                 json.dump(data, f, ensure_ascii=False, indent=2)
 
             return result
+
         return wrapper
+
     return decorator

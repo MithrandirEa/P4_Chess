@@ -1,16 +1,13 @@
 # REFACTORING - main.py seulement un point d'entrée
-
 from controllers.tournaments_control import TournamentController
-from controllers.rounds_control import record_current_round_results
-
-from views.menu import Menu
-
-from views.tournament_view import TournamentView
-from views.tournament_view import select_tournament
-
-from views.player_view import PlayerView
-
-from views.display import display_tournament_list, display_tournament_players_list, display_chessplayers_list
+from views import (
+    Menu,
+    TournamentView, select_tournament, PlayerView,
+    display_tournament_list,
+    display_tournament_players_list,
+    display_tournament_rounds_list,
+    display_chessplayers_list,
+)
 
 
 
@@ -40,14 +37,16 @@ def manage_tournament(
             tournament, PlayerView().ask_player_fields()
         ),
     )
-    manage_menu.add_option(#TODO: Prévoir saisie ou sélection dans navigateur
+    manage_menu.add_option(  # TODO: Prévoir saisie ou sélection dans navigateur
         2,
         "Importer joueurs JSON",
         lambda: controller.add_players_from_json(tournament, "Data/FakePlayers.json"),
-    )  
+    )
 
     manage_menu.add_option(
-        3, "Liste des joueurs du tournoi", lambda: display_tournament_players_list(tournament),
+        3,
+        "Liste des joueurs du tournoi",
+        lambda: display_tournament_players_list(tournament),
     )
     manage_menu.add_option(
         4, "Initier un tournois", lambda: controller.start_tournament(tournament)
@@ -55,14 +54,14 @@ def manage_tournament(
     manage_menu.add_option(
         5,
         "Saisir les résultats du round en cours",
-        lambda: controller.save_current_round_results(tournament))
+        lambda: controller.save_current_round_results(tournament),
+    )
     manage_menu.add_option(0, "Retour", None)
     manage_menu.run()
 
 
-
 def display_report(controller):
-    #TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
+    # TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
     reports_menu = Menu("Afficher les rapports")
     reports_menu.add_option(
         1,
@@ -70,19 +69,28 @@ def display_report(controller):
         lambda: display_chessplayers_list(),
     )
     reports_menu.add_option(
-        2, "Liste de tous les tournois", lambda: display_tournament_list()  )
-    #FIXME: faire fonctionner la selection de tournoi
+        2, "Liste de tous les tournois", lambda: display_tournament_list()
+    )
+    # FIXME: faire fonctionner la selection de tournoi
     reports_menu.add_option(
         3,
         "Liste des joueurs d'un tournoi (ordre alphabétique)",
         lambda: (
-            lambda t=select_tournament(controller): display_tournament_players_list(t) if t else None
-        )())
+            lambda t=select_tournament(controller): (
+                display_tournament_players_list(t) if t else None
+            )
+        )(),
+    )
     reports_menu.add_option(
         4,
         "Liste des rounds et matchs d'un tournois",
-        lambda: lambda: print("⚠️ À implémenter"),#TODO: Implémenter l'affichage des rounds et matchs d'un tournois. Penser à selectionner le tournoi (cf FIXME dans display.py)
+        lambda: (
+            lambda t=select_tournament(controller): (
+                display_tournament_rounds_list(t) if t else None
+            )
+        )(),
     )
+
     reports_menu.add_option(0, "Retour", None)
     reports_menu.run()
 

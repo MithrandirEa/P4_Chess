@@ -1,8 +1,6 @@
-
 # TODO: Ajouter une logique pour déclencher automatiquement à la clôture d'un round le système d'appairage général(Swiss system) pour les rounds suivants.
 
 
-    
 def record_current_round_results(tournament: "Tournament"):
     """Saisie des résultats du round en cours."""
 
@@ -34,10 +32,10 @@ def record_current_round_results(tournament: "Tournament"):
             if p.national_chess_id == match.black_player.national_chess_id:
                 p.tournament_score_value += score_black
 
-
     # ✅ Clôture du round uniquement si tous les scores sont valides
     all_matches_valid = all(
-        m.white_player_score is not None and m.black_player_score is not None
+        m.white_player_score is not None
+        and m.black_player_score is not None
         and m.white_player_score + m.black_player_score == 1
         for m in current_round.matches
     )
@@ -46,7 +44,9 @@ def record_current_round_results(tournament: "Tournament"):
         current_round.end_round()
         print(f"✅ Round {current_round.round_number} clôturé automatiquement.")
     else:
-        print(f"⚠️ Round {current_round.round_number} non clôturé (scores incomplets ou invalides).")
+        print(
+            f"⚠️ Round {current_round.round_number} non clôturé (scores incomplets ou invalides)."
+        )
 
 
 def ask_score(prompt: str) -> float:
@@ -60,4 +60,3 @@ def ask_score(prompt: str) -> float:
                 print("⚠️ Score invalide. Les valeurs autorisées sont : 0, 0.5 ou 1.")
         except ValueError:
             print("⚠️ Entrée invalide. Veuillez entrer 0, 0.5 ou 1.")
-

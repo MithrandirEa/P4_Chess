@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict, Any
-from .player import Player
-from .chessRound import Round
+from models import Player
+from models import Round
 
 
 @dataclass
@@ -82,5 +82,7 @@ class Tournament:
             description=data.get("description"),
         )
         tournament.players = [Player.from_record(p) for p in data.get("players", [])]
-        tournament.rounds = [Round.from_record(r, tournament.players) for r in data.get("rounds", [])]
+        tournament.rounds = [
+            Round.from_record(r, tournament.players) for r in data.get("rounds", [])
+        ]
         return tournament
