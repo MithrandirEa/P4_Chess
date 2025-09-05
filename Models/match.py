@@ -6,27 +6,27 @@ from models import Player
 
 @dataclass
 class Match:
-    """Entité représentant une partie d'échecs."""
-
     white_player: Player
     white_player_score: float
     black_player: Player
     black_player_score: float
 
     def to_tuple(self) -> Tuple[List[Any], List[Any]]:
-        """Retourne la représentation sous forme de tuple sérialisable."""
         return (
-            [self.white_player, self.white_player_score],
-            [self.black_player, self.black_player_score],
+            [self.white_player.name, self.white_player_score],
+            [self.black_player.name, self.black_player_score],
         )
 
     @staticmethod
-    def from_tuple(data: tuple[list, list]) -> "Match":
-        """Reconstruit un Match depuis un tuple de deux listes [nom, score]."""
+    def from_tuple(data: tuple[list, list], players: list[Player]) -> "Match":
+        """Reconstruit un Match depuis un tuple + la liste des joueurs du tournoi."""
         p1, p2 = data
+        # retrouver les objets Player correspondants
+        white = next((p for p in players if p.name == p1[0]), Player(name=p1[0], birthdate="", national_chess_id=""))
+        black = next((p for p in players if p.name == p2[0]), Player(name=p2[0], birthdate="", national_chess_id=""))
         return Match(
-            white_player=p1[0],  # nom du joueur (str)
-            white_player_score=p1[1],  # score (float)
-            black_player=p2[0],
-            black_player_score=p2[1],
+            white_player=white,
+            white_player_score=p1[1],
+            black_player=black,
+            black_player_score=p2[1]
         )

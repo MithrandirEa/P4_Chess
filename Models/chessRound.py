@@ -34,9 +34,9 @@ class Round:
         }
 
     @staticmethod
-    def from_record(data: dict) -> "Round":
+    def from_record(data: dict, players: list[Player]) -> "Round":
         """Reconstruit un Round depuis un dictionnaire."""
-        matches = [Match.from_tuple(t) for t in data["matches"]]
+        matches = [Match.from_tuple(tuple(t), players) for t in data["matches"]]
         start_dt = datetime.fromisoformat(data["start_datetime"])
         end_dt = (
             datetime.fromisoformat(data["end_datetime"])
@@ -49,3 +49,5 @@ class Round:
             start_datetime=start_dt,
             end_datetime=end_dt,
         )
+
+

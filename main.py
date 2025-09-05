@@ -1,4 +1,7 @@
+# REFACTORING - main.py seulement un point d'entrée
+
 from controllers.tournaments_control import TournamentController
+from controllers.rounds_control import record_current_round_results
 from views.menu import Menu
 from views.tournament_view import TournamentView
 from views.player_view import PlayerView
@@ -45,14 +48,14 @@ def manage_tournament(
     manage_menu.add_option(
         5,
         "Saisir les résultats du round en cours",
-        lambda: controller.record_current_round_results(tournament),
-    )
+        lambda: controller.save_current_round_results(tournament))
     manage_menu.add_option(0, "Retour", None)
     manage_menu.run()
 
 
-#TODO: Compléter la fonction
+
 def display_report():
+    #TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
     reports_menu = Menu("Afficher les rapports")
     reports_menu.add_option(
         1,
@@ -64,7 +67,7 @@ def display_report():
     reports_menu.add_option(
         3,
         "Liste des joueurs d'un tournois (ordre alphabétique)",
-        lambda: display_tournament_players_list(),#TODO: permettre la selection du tournoi cf FIXME
+        lambda: display_tournament_players_list(),
     )
     reports_menu.add_option(
         4,

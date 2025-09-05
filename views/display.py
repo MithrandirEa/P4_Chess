@@ -1,3 +1,5 @@
+#TODO: REFACTORING - Décorateur ?
+
 """display.py - CLI - Affichage des rapports."""
 import json
 

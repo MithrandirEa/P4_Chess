@@ -29,3 +29,7 @@ class Player:
             national_chess_id=record.get("national_chess_id", ""),
             address=record.get("address"),
         )
+        
+    def __str__(self) -> str:
+        """Affiche seulement les infos contenu ici"""
+        return self.name

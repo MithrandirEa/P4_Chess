@@ -82,5 +82,5 @@ class Tournament:
             description=data.get("description"),
         )
         tournament.players = [Player.from_record(p) for p in data.get("players", [])]
-        tournament.rounds = [Round.from_record(r) for r in data.get("rounds", [])]
+        tournament.rounds = [Round.from_record(r, tournament.players) for r in data.get("rounds", [])]
         return tournament

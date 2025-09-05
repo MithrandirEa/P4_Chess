@@ -16,7 +16,7 @@ class TournamentView:  # TODO: Grouper TournamentView et PlayerView dans le mêm
         )
         description = validate_cast("Description (optionnelle) : ", str, default="")
 
-        return {
+        return { #FIXME:gérer les problèmes de type
             "name": name,
             "location": location,
             "start_date": start_date.strftime("%Y-%m-%d") if start_date else None,
