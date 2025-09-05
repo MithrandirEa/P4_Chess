@@ -26,3 +26,26 @@ class TournamentView:  # TODO: Grouper TournamentView et PlayerView dans le mêm
             ),
             "description": description or None,
         }
+
+def select_tournament(controller):
+    """Permet à l'utilisateur de sélectionner un tournoi existant"""
+    tournaments = controller.list_tournaments()
+
+    if not tournaments:
+        print("⚠ Aucun tournoi disponible.")
+        return None
+
+    print("\n=== Sélectionner un tournoi ===")
+    for idx, t in enumerate(tournaments, start=1):
+        print(f"{idx}. {t.name} ({t.start_date} → {t.end_date})")
+
+    try:
+        choice = int(input("Choisissez un tournoi (numéro) : ").strip())
+        if 1 <= choice <= len(tournaments):
+            return tournaments[choice - 1]
+        else:
+            print("⚠ Choix invalide.")
+            return None
+    except ValueError:
+        print("⚠ Entrée invalide.")
+        return None

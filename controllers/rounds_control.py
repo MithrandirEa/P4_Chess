@@ -1,4 +1,3 @@
-#TODO: Ajouter une logique pour marquer la end.date du round si tout les matchs ont une somme de résultats égale à 1.
 
 # TODO: Ajouter une logique pour déclencher automatiquement à la clôture d'un round le système d'appairage général(Swiss system) pour les rounds suivants.
 
@@ -30,10 +29,11 @@ def record_current_round_results(tournament: "Tournament"):
 
         # Mise à jour des scores cumulés du tournoi
         for p in tournament.players:
-            if p.name == match.white_player:
+            if p.national_chess_id == match.white_player.national_chess_id:
                 p.tournament_score_value += score_white
-            if p.name == match.black_player:
+            if p.national_chess_id == match.black_player.national_chess_id:
                 p.tournament_score_value += score_black
+
 
     # ✅ Clôture du round uniquement si tous les scores sont valides
     all_matches_valid = all(

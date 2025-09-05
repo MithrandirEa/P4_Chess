@@ -59,7 +59,7 @@ def display_tournament_players_list(tournament):
             p.address or "",
             p.tournament_score_value,
         ])
-    headers = ["name", "birthdate", "national_chess_id", "address", "stournament_score_value"]
+    headers = ["name", "birthdate", "national_chess_id", "address", "tournament_score_value"]
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
 
 def display_chessplayers_list():

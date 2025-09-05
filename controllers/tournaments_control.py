@@ -12,8 +12,21 @@ class TournamentController:
         self.load_tournaments()
 
     def save_tournaments(self):
+        """Sauvegarde tous les tournois en JSON, avec backup de sécurité."""
+        if not self.tournaments:
+            print("⚠️ Aucun tournoi à sauvegarder, annulation de l'écriture.")
+            return
+
+        # Sauvegarde backup
+        import shutil, datetime
+        backup_file = f"{DB_TOURNAMENTS}.bak_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        shutil.copy(DB_TOURNAMENTS, backup_file)
+
+        # Sauvegarde principale
         with open(DB_TOURNAMENTS, "w", encoding=DEFAULT_ENCODING) as f:
             json.dump([t.to_record() for t in self.tournaments], f, indent=4)
+        print(f"✅ Tournois sauvegardés ({len(self.tournaments)} tournois)")
+
 
     def load_tournaments(self):
         try:
@@ -87,9 +100,9 @@ class TournamentController:
         for i in range(0, len(players) - 1, 2):
             p1, p2 = players[i], players[i + 1]
             match = Match(
-                white_player=p1.name,
+                white_player=p1,
                 white_player_score=0.0,
-                black_player=p2.name,
+                black_player=p2,
                 black_player_score=0.0,
             )
             matches.append(match)

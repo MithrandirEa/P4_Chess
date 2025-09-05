@@ -2,10 +2,17 @@
 
 from controllers.tournaments_control import TournamentController
 from controllers.rounds_control import record_current_round_results
+
 from views.menu import Menu
+
 from views.tournament_view import TournamentView
+from views.tournament_view import select_tournament
+
 from views.player_view import PlayerView
+
 from views.display import display_tournament_list, display_tournament_players_list, display_chessplayers_list
+
+
 
 def manage_tournament(
     controller: TournamentController,
@@ -54,7 +61,7 @@ def manage_tournament(
 
 
 
-def display_report():
+def display_report(controller):
     #TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
     reports_menu = Menu("Afficher les rapports")
     reports_menu.add_option(
@@ -64,11 +71,13 @@ def display_report():
     )
     reports_menu.add_option(
         2, "Liste de tous les tournois", lambda: display_tournament_list()  )
+    #FIXME: faire fonctionner la selection de tournoi
     reports_menu.add_option(
         3,
-        "Liste des joueurs d'un tournois (ordre alphabétique)",
-        lambda: display_tournament_players_list(),
-    )
+        "Liste des joueurs d'un tournoi (ordre alphabétique)",
+        lambda: (
+            lambda t=select_tournament(controller): display_tournament_players_list(t) if t else None
+        )())
     reports_menu.add_option(
         4,
         "Liste des rounds et matchs d'un tournois",
@@ -89,7 +98,7 @@ def main():
         lambda: controller.create_tournament(**tview.ask_tournament_fields()),
     )
     main_menu.add_option(2, "Gérer un tournoi", lambda: manage_tournament(controller))
-    main_menu.add_option(3, "Afficher les rapports", lambda: display_report())
+    main_menu.add_option(3, "Afficher les rapports", lambda: display_report(controller))
     main_menu.add_option(0, "Quitter", None)
     main_menu.run()
 
