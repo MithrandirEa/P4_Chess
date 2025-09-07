@@ -3,6 +3,7 @@ __pycache__/
 Data/FakePlayers.json
 Doc/
 flake8_rapport/
-.vscode/
+*vscode*
 settings.json
 makefile
+.vscode
