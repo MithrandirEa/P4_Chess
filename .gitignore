@@ -1,9 +1,7 @@
 venv/
 __pycache__/
-Data/
+Data/FakePlayers.json
 Doc/
-KEEPEYE.md
-EYESON.py
 flake8_rapport/
 .vscode/
 settings.json
