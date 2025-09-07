@@ -52,7 +52,8 @@ lint-html: $(VENV) ## Génère un rapport HTML flake8
 
 .PHONY: lint-play
 lint-play: lint-html ## Ouvre le rapport HTML flake8
-	start flake8_report/index.html
+	powershell -Command "Start-Process flake8_report/index.html"
+
 
 .PHONY: typecheck
 typecheck: $(VENV) ## Vérifie les types avec mypy
