@@ -1,5 +1,5 @@
 from .menu import Menu
-from .view_models import FormView, TournamentView, PlayerView, select_tournament
+from .view_models import TournamentView, PlayerView, select_tournament
 from .display_tournament import display_tournament_list
 from .display_tournament import display_tournament_players_list
 from .display_tournament import display_chessplayers_list

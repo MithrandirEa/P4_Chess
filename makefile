@@ -45,7 +45,12 @@ format: $(VENV) ## Formate avec black
 
 .PHONY: lint
 lint: $(VENV) ## Lint avec flake8
-	$(PY_VENV) -m flake8 $(SRC_PATHS) --exclude venv,Data,Doc,__pycache__
+	$(PY_VENV) -m flake8 --max-line-length=119 \
+		--format=html --htmldir=flake8_rapport $(SRC_PATHS) --exclude venv,Data,Doc,__pycache__,test
+
+.PHONY: lintplay
+lintplay: ## Affiche le rapport HTML de flake8
+	cmd /c start flake8_rapport/index.html
 
 .PHONY: typecheck
 typecheck: $(VENV) ## Types avec mypy

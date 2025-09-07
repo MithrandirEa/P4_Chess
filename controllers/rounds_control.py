@@ -59,7 +59,7 @@ def ask_score(prompt: str) -> float:
             if score in (0.0, 0.5, 1.0):
                 return score
             else:
-                print("⚠️ Score invalide. Les valeurs autorisées sont : 0, 0.5 ou 1.")
+                print("⚠️ Score invalide.Les valeurs autorisées sont : 0, 0.5 ou 1.")
         except ValueError:
             print("⚠️ Entrée invalide. Veuillez entrer 0, 0.5 ou 1.")
 
