@@ -1,7 +1,7 @@
 # Makefile — Chess (CLI) — portable Windows/macOS/Linux
 # Utilisation : make help
 
-PY ?= python3
+PY ?= python
 PIP ?= $(PY) -m pip
 VENV ?= venv
 
@@ -27,7 +27,7 @@ $(VENV): ## Crée l'environnement virtuel local
 
 .PHONY: sync
 sync: $(VENV) ## Installe les dépendances applicatives
-	@if [ -f requirements.txt ]; then \
+	@if [ requirements.txt ]; then \
 		echo ">> Installation depuis requirements.txt"; \
 		$(PIP_VENV) install -r requirements.txt ; \
 	else \
