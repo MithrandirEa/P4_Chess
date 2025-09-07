@@ -3,6 +3,5 @@ __pycache__/
 Doc/
 flake8_rapport/
 settings.json
-makefile
 .vscode
 *.bak

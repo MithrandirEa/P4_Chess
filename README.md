@@ -17,7 +17,7 @@
 
    ```bash
    git clone https://github.com/MithrandirEa/P4_Chess.git
-   cd Chess
+   cd P4_Chess
    ```
 
 2. Créez, activez un environnement virtuel et installer les dépendances :
@@ -57,7 +57,7 @@ Vous verrez apparaître le **menu principal** :
 * **Joueurs FFE** (liste alphabétique depuis `Data/LicensedPlayers.json`)
 * **Tous les tournois** (affiche `Data/Tournaments.json`)
 * **Joueurs d’un tournoi** (affiche et trie alphabétiquement les joueurs)
-* **Rounds et matchs d’un tournoi** (affiche rounds + matchs avec `tabulate`)
+* **Rounds et matchs d’un tournoi** (affiche rounds + matchs)
 
 ---
 
@@ -79,7 +79,9 @@ Cela crée un dossier `flake8_report/` contenant `index.html`.
 
 ```bash
 start flake8_report/index.html   # Windows
+
 xdg-open flake8_report/index.html  # Linux
+
 open flake8_report/index.html     # macOS
 ```
 
@@ -116,6 +118,7 @@ project/
 │   └── FakePlayers.json
 │
 │── main.py
+│── .gitignore
 │── constant.py
 │── type_validation.py
 └── requirements.txt
