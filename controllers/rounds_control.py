@@ -1,12 +1,14 @@
 from typing import List, Optional
 from models import Tournament, Player, Match
 
+
 def update_player_scores(tournament, match, score_white, score_black):
     for p in tournament.players:
         if p.national_chess_id == match.white_player.national_chess_id:
             p.tournament_score_value += score_white
         if p.national_chess_id == match.black_player.national_chess_id:
             p.tournament_score_value += score_black
+
 
 def record_current_round_results(tournament: "Tournament"):
     """Saisie des résultats du round en cours."""
@@ -48,6 +50,7 @@ def record_current_round_results(tournament: "Tournament"):
             f"⚠️ Round {current_round.round_number} non clôturé (scores incomplets ou invalides)."
         )
 
+
 def ask_score(prompt: str) -> float:
     """Demande et valide un score (0, 0.5 ou 1)."""
     while True:
@@ -60,11 +63,13 @@ def ask_score(prompt: str) -> float:
         except ValueError:
             print("⚠️ Entrée invalide. Veuillez entrer 0, 0.5 ou 1.")
 
+
 def _already_played(t, a, b) -> bool:
-    for rnd in t.rounds:                                  # rounds existants
-        for m in rnd.matches:                             # chaque match
-            if (m.white_player is a and m.black_player is b) \
-               or (m.white_player is b and m.black_player is a):
+    for rnd in t.rounds:  # rounds existants
+        for m in rnd.matches:  # chaque match
+            if (m.white_player is a and m.black_player is b) or (
+                m.white_player is b and m.black_player is a
+            ):
                 return True
     return False
 
@@ -75,7 +80,7 @@ def prepare_next_round(t: Tournament) -> Optional[object]:
     if nxt is None:
         print("Tournoi terminé.")
         return None
-    if nxt.matches:              # déjà initialisé
+    if nxt.matches:  # déjà initialisé
         print(f"Round {nxt.round_number} déjà initialisé.")
         return nxt
 
@@ -101,11 +106,47 @@ def prepare_next_round(t: Tournament) -> Optional[object]:
             elif not _already_played(t, b, c):
                 players[i], players[i + 2] = players[i + 2], players[i]
                 a = players[i]
-        nxt.add_match(Match(
-            white_player=a, white_player_score=0.0,
-            black_player=b, black_player_score=0.0
-        ))
+        nxt.add_match(
+            Match(
+                white_player=a,
+                white_player_score=0.0,
+                black_player=b,
+                black_player_score=0.0,
+            )
+        )
         i += 2
 
     print(f"Round {nxt.round_number} initialisé avec {len(nxt.matches)} matchs.")
     return nxt
+
+
+def reset_last_round_and_rescore(tournament: "Tournament"):
+    """Réinitialise le dernier round et redemande la saisie des scores si le tournoi n'est pas fini."""
+    if tournament.is_finished():
+        print("⚠️ Le tournoi est déjà terminé, impossible de modifier les résultats.")
+        return
+
+    if not tournament.rounds:
+        print("⚠️ Aucun round à réinitialiser.")
+        return
+
+    last_round = tournament.rounds[-1]
+    print(f"\n=== Réinitialisation du Round {last_round.round_number} ===")
+
+    # Remettre tous les scores à zéro
+    for match in last_round.matches:
+        match.white_player_score = 0.0
+        match.black_player_score = 0.0
+
+    for p in tournament.players:
+        p.tournament_score_value = 0.0
+        # recalcul des scores à partir des rounds précédents (sauf le dernier réinitialisé)
+        for rnd in tournament.rounds[:-1]:
+            for m in rnd.matches:
+                if p.name == m.white_player.name:
+                    p.tournament_score_value += m.white_player_score
+                if p.name == m.black_player.name:
+                    p.tournament_score_value += m.black_player_score
+
+    print("♻️ Round réinitialisé. Vous pouvez ressaisir les résultats.")
+    record_current_round_results(tournament)

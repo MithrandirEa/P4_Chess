@@ -1,5 +1,6 @@
 # REFACTORING - main.py seulement un point d'entrée
 from controllers.tournaments_control import TournamentController
+from controllers.rounds_control import reset_last_round_and_rescore
 from views import (
     Menu,
     TournamentView,
@@ -13,7 +14,6 @@ from views import (
 
 
 def manage_tournament(
-    
     controller: TournamentController,
 ):  # Fonction de gestion des tournois
     tournaments = controller.list_tournaments()
@@ -40,7 +40,6 @@ def manage_tournament(
         ),
     )
     manage_menu.add_option(
-# TODO: Prévoir saisie ou sélection dans navigateur
         2,
         "Importer joueurs JSON",
         lambda: controller.add_players_from_json(tournament, "Data/FakePlayers.json"),
@@ -58,6 +57,11 @@ def manage_tournament(
         5,
         "Saisir les résultats du round en cours",
         lambda: controller.save_current_round_results(tournament),
+    )
+    manage_menu.add_option(
+        6,
+        "Modifier les résultats du round précédent",
+        lambda: reset_last_round_and_rescore(tournament),
     )
     manage_menu.add_option(0, "Retour", None)
     manage_menu.run()

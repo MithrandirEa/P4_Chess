@@ -110,9 +110,7 @@ class TournamentController:
             matches.append(match)
 
         if len(players) % 2 == 1:
-            print(
-                f"{players[-1].name} n’a pas d’adversaire ce round."
-            )  # TODO: Ajouter meilleure gestion de la parité de joueurs.
+            print(f"{players[-1].name} n’a pas d’adversaire ce round.")
         # Ajouter dans le Round
         for m in matches:
             first_round.add_match(m)
@@ -120,7 +118,6 @@ class TournamentController:
         tournament.current_round = first_round
         self.save_tournaments()
         print(f"✅ Premier round initialisé avec {len(matches)} matchs.")
-
 
     def save_current_round_results(self, tournament):
         """Saisie des résultats du round en cours et sauvegarde."""

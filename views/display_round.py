@@ -1,5 +1,6 @@
 from tabulate import tabulate
 
+
 def display_tournament_rounds_list(tournament):
     """Affiche la liste des rounds d'un tournoi sous forme de tableau."""
     rounds = tournament.rounds
@@ -36,7 +37,7 @@ def display_round_match_list(rnd):
         table.append(
             [
                 idx,
-                match.white_player,         # Player → __str__ affiche juste le nom
+                match.white_player,  # Player → __str__ affiche juste le nom
                 match.white_player_score,
                 match.black_player,
                 match.black_player_score,
@@ -47,11 +48,10 @@ def display_round_match_list(rnd):
     print(f"\n=== Matchs du Round {rnd.round_number} ===")
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
 
+
 def display_round_detail(tournament):
-  
+
     display_tournament_rounds_list(tournament)
-    
+
     for rnd in tournament.rounds:
         display_round_match_list(rnd)
-
-
