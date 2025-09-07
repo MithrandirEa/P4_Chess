@@ -2,7 +2,7 @@ import json
 import random
 
 from constant import DB_LICENSED_PLAYERS, DB_TOURNAMENTS, DEFAULT_ENCODING
-from swap import Tournament, Player, Match
+from models import Tournament, Player, Match
 from controllers import save_player
 from controllers import record_current_round_results
 

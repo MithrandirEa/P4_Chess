@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from swap import Player
+from models import Player
 
 
 @dataclass
