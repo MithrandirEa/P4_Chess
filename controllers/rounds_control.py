@@ -1,5 +1,5 @@
 from typing import List, Optional
-from models import Tournament, Player, Match
+from swap import Tournament, Player, Match
 
 
 def update_player_scores(tournament, match, score_white, score_black):

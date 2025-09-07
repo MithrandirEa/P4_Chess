@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict, Any
-from models import Player
-from models import Round
+from swap import Player
+from swap import Round
 
 
 @dataclass
