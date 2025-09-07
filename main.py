@@ -64,7 +64,6 @@ def manage_tournament(
 
 
 def display_report(controller):
-# TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
     reports_menu = Menu("Afficher les rapports")
     reports_menu.add_option(
         1,

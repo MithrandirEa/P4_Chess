@@ -49,6 +49,9 @@ def display_tournament_players_list(tournament):
     if not players:
         print("⚠️ Aucun joueur dans ce tournoi.")
         return
+    
+    # Trier les joueurs par ordre alphabétique (clé = name)
+    players = sorted(players, key=lambda p: p.name.lower())
 
     # Préparer les données pour tabulate
     table = []
@@ -91,6 +94,9 @@ def display_chessplayers_list():
     if not players:
         print("⚠️ Aucun joueur disponible.")
         return
+    
+    # Trier les joueurs par ordre alphabétique (clé = name)
+    players = sorted(players, key=lambda p: p.get("name", "").lower())
 
     # Préparer les données pour tabulate
     table = []
