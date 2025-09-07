@@ -7,6 +7,7 @@
 
 * **Python 3.9+** installé
 * **pip** et **venv** disponibles
+* **Make** installé (facultatif mais recommandé)
 * Un terminal (PowerShell, Bash, etc.)
 
 ---
@@ -15,37 +16,44 @@
 
 1. Clonez ce dépôt et placez-vous dedans :
 
-   ```bash
-   git clone https://github.com/MithrandirEa/P4_Chess.git
-   cd P4_Chess
-   ```
+```bash
+git clone https://github.com/MithrandirEa/P4_Chess.git
+cd P4_Chess
+```
 
-2. Créez, activez un environnement virtuel et installer les dépendances :
+2. Créez et activez un environnement virtuel, puis installez les dépendances :
 
-   ```bash
-    python -m venv venv
-    venv\Scripts\Activate
-    pip install -r requirements.txt
-   ```
+### 🔹 Méthode traditionnelle
+
+```bash
+python -m venv venv
+venv\Scripts\activate     # Windows
+source venv/bin/activate  # Linux/macOS
+pip install -r requirements.txt
+```
+
+### 🔹 Méthode Makefile
+
+```bash
+make sync
+```
+
+👉 Cette commande crée automatiquement le venv s’il n’existe pas, installe `pip`, `wheel` et toutes les dépendances listées dans `requirements.txt`.
 
 ---
 
 ## ▶️ Lancer l’application
 
-Dans le terminal, exécutez :
+### 🔹 Méthode traditionnelle
 
 ```bash
 python main.py
 ```
 
-Vous verrez apparaître le **menu principal** :
+### 🔹 Méthode Makefile
 
-```
-=== Menu Principal ===
-1. Créer un tournoi
-2. Gérer un tournoi
-3. Afficher les rapports
-0. Quitter
+```bash
+make run
 ```
 
 ---
@@ -57,35 +65,70 @@ Vous verrez apparaître le **menu principal** :
 * **Joueurs FFE** (liste alphabétique depuis `Data/LicensedPlayers.json`)
 * **Tous les tournois** (affiche `Data/Tournaments.json`)
 * **Joueurs d’un tournoi** (affiche et trie alphabétiquement les joueurs)
-* **Rounds et matchs d’un tournoi** (affiche rounds + matchs)
+* **Rounds et matchs d’un tournoi** (affiche rounds + matchs via `tabulate`)
 
 ---
 
 ## ✅ Vérification de code (Lint)
 
-Nous utilisons **flake8** et **flake8-html**.
+Nous utilisons **flake8** et **flake8-html** pour le style de code.
 
+### Générer un rapport lint HTML
 
-
-### Générer un rapport lint en HTML
+#### 🔹 Méthode traditionnelle
 
 ```bash
-flake8 --max-line-length=119 --format=html --htmldir=flake8_report
+python -m flake8 --max-line-length=119 --format=html --htmldir=flake8_report
 ```
 
-Cela crée un dossier `flake8_report/` contenant `index.html`.
-
-### Ouvrir le rapport automatiquement
+#### 🔹 Méthode Makefile
 
 ```bash
-start flake8_report/index.html   # Windows
+make lint-html
+```
 
-xdg-open flake8_report/index.html  # Linux
+---
 
+### Ouvrir le rapport dans le navigateur
+
+#### 🔹 Méthode traditionnelle
+
+```bash
+start flake8_report/index.html    # Windows
+xdg-open flake8_report/index.html # Linux
 open flake8_report/index.html     # macOS
 ```
 
-Cela lancera votre navigateur par défaut et affichera le rapport.
+#### 🔹 Méthode Makefile
+
+```bash
+make lint-play
+```
+
+---
+
+## 🔧 Autres commandes utiles (Makefile)
+
+* **Formater le code avec Black**
+
+  ```bash
+  make format
+  ```
+* **Vérifier les types avec MyPy**
+
+  ```bash
+  make typecheck
+  ```
+* **Exécuter les tests unitaires avec pytest**
+
+  ```bash
+  make test
+  ```
+* **Nettoyer le projet (supprimer venv, caches, rapports)**
+
+  ```bash
+  make clean
+  ```
 
 ---
 
@@ -114,13 +157,16 @@ project/
 │   ├── FakePlayers.json
 │   ├── LicensedPlayers.json
 │   └── Tournaments.json
-│── flake8_report/
-│   └── FakePlayers.json
 │
+│── flake8_report/        # Rapport lint généré
+│── venv/                 # Environnement virtuel (non versionné)
 │── main.py
-│── .gitignore
 │── constant.py
 │── type_validation.py
-└── requirements.txt
+│── makefile
+│── requirements.txt
+└── .gitignore
 ```
+
+---
 
