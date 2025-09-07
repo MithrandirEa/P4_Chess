@@ -1,4 +1,4 @@
-# REFACTORING - main.py seulement un point d'entrée
+from constant import DB_PLAYERS
 from controllers.tournaments_control import TournamentController
 from controllers.rounds_control import reset_last_round_and_rescore
 from views import (
@@ -42,7 +42,7 @@ def manage_tournament(
     manage_menu.add_option(
         2,
         "Importer joueurs JSON",
-        lambda: controller.add_players_from_json(tournament, "Data/FakePlayers.json"),
+        lambda: controller.add_players_from_json(tournament, filepath=DB_PLAYERS),
     )
 
     manage_menu.add_option(
