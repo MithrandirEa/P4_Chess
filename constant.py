@@ -3,7 +3,7 @@
 from pathlib import Path
 
 # Fichier JSON contenant les joueurs (base de test)
-DB_PLAYERS = Path("Data") / "FakePlayers.json"
+DB_PLAYERS = Path("Data") / "ImportedPlayers.json"
 
 # Fichier JSON contenant la DB des joueurs licenciés
 DB_LICENSED_PLAYERS = Path("Data") / "LicensedPlayers.json"

@@ -1,9 +1,7 @@
 venv/
 __pycache__/
-Data/FakePlayers.json
 Doc/
 flake8_rapport/
-*vscode*
 settings.json
 makefile
 .vscode
