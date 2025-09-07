@@ -1,0 +1,9 @@
+{
+    "clockify.apiKey": "YjYxOTEzYjgtOTQxNC00M2RhLTk2NmItM2I1Zjg0MTIxNDRj",
+    "clockify.hideSensitiveData": false,
+    "python.testing.pytestArgs": [
+        "test"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

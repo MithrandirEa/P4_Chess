@@ -7,12 +7,13 @@ from views import (
     PlayerView,
     display_tournament_list,
     display_tournament_players_list,
-    display_tournament_rounds_list,
+    display_round_detail,
     display_chessplayers_list,
 )
 
 
 def manage_tournament(
+    
     controller: TournamentController,
 ):  # Fonction de gestion des tournois
     tournaments = controller.list_tournaments()
@@ -38,7 +39,8 @@ def manage_tournament(
             tournament, PlayerView().ask_fields()
         ),
     )
-    manage_menu.add_option(  # TODO: Prévoir saisie ou sélection dans navigateur
+    manage_menu.add_option(
+# TODO: Prévoir saisie ou sélection dans navigateur
         2,
         "Importer joueurs JSON",
         lambda: controller.add_players_from_json(tournament, "Data/FakePlayers.json"),
@@ -62,7 +64,7 @@ def manage_tournament(
 
 
 def display_report(controller):
-    # TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
+# TODO: Ajouter le tri alphabétique pour les joueurs d'un tournois.
     reports_menu = Menu("Afficher les rapports")
     reports_menu.add_option(
         1,
@@ -86,7 +88,7 @@ def display_report(controller):
         "Liste des rounds et matchs d'un tournois",
         lambda: (
             lambda t=select_tournament(controller): (
-                display_tournament_rounds_list(t) if t else None
+                display_round_detail(t) if t else None
             )
         )(),
     )

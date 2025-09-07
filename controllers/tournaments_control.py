@@ -27,7 +27,7 @@ class TournamentController:
         # Sauvegarde principale
         with open(DB_TOURNAMENTS, "w", encoding=DEFAULT_ENCODING) as f:
             json.dump([t.to_record() for t in self.tournaments], f, indent=4)
-        print(f"✅ Tournois sauvegardés ({len(self.tournaments)} tournois)")
+        print("✅ État sauvegardé")
 
     def load_tournaments(self):
         try:
@@ -121,7 +121,6 @@ class TournamentController:
         self.save_tournaments()
         print(f"✅ Premier round initialisé avec {len(matches)} matchs.")
 
-#TODO: definir méthode play_next_round
 
     def save_current_round_results(self, tournament):
         """Saisie des résultats du round en cours et sauvegarde."""

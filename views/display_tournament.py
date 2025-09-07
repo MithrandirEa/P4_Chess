@@ -1,6 +1,3 @@
-# TODO: REFACTORING - Décorateur ?
-
-"""display.py - CLI - Affichage des rapports."""
 import json
 
 from tabulate import tabulate
@@ -44,29 +41,6 @@ def display_tournament_list():
 
     print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
 
-
-def display_tournament_rounds_list(tournament):
-    """Affiche la liste des rounds d'un tournoi sous forme de tableau."""
-    rnd = tournament.rounds
-    matches = rnd.matches if rnd else []
-    if not rnd:
-        print("⚠️ Aucun round dans ce tournoi.")
-        return
-
-    # Préparer les données pour tabulate
-    table = []
-    for idx, r in enumerate(rnd, start=1):
-        table.append(
-            [
-                idx,
-                r.round_number,
-                r.start_datetime,
-                r.end_datetime if r.end_datetime else "En cours",
-                r.matches,
-            ]
-        )
-    headers = ["#", "Round", "Début", "Fin", "Matches"]
-    print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
 
 
 def display_tournament_players_list(tournament):
