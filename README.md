@@ -23,7 +23,9 @@
 2. Créez, activez un environnement virtuel et installer les dépendances :
 
    ```bash
-    make sync
+    python -m venv venv
+    venv\Scripts\Activate
+    pip install -r requirements.txt
    ```
 
 ---
@@ -63,24 +65,22 @@ Vous verrez apparaître le **menu principal** :
 
 Nous utilisons **flake8** et **flake8-html**.
 
-### Installation
 
-```bash
-pip install flake8 flake8-html
-```
 
 ### Générer un rapport lint en HTML
 
 ```bash
-make rapport_lint
+flake8 --max-line-length=119 --format=html --htmldir=flake8_report
 ```
 
-Cela crée un dossier `flake8_rapport/` contenant `index.html`.
+Cela crée un dossier `flake8_report/` contenant `index.html`.
 
 ### Ouvrir le rapport automatiquement
 
 ```bash
-make lintplay
+start flake8_report/index.html   # Windows
+xdg-open flake8_report/index.html  # Linux
+open flake8_report/index.html     # macOS
 ```
 
 Cela lancera votre navigateur par défaut et affichera le rapport.
@@ -112,30 +112,12 @@ project/
 │   ├── FakePlayers.json
 │   ├── LicensedPlayers.json
 │   └── Tournaments.json
+│── flake8_report/
+│   └── FakePlayers.json
 │
 │── main.py
 │── constant.py
-│── makefile
+│── type_validation.py
+└── requirements.txt
 ```
 
----
-
-## 🛠 Commandes Makefile utiles
-
-* **Lancer l’app :**
-
-  ```bash
-  make run
-  ```
-* **Vérifier le code (rapport HTML) :**
-
-  ```bash
-  make lint
-  ```
-* **Ouvrir le rapport lint dans le navigateur :**
-
-  ```bash
-  make lintplay
-  ```
-
----

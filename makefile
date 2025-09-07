@@ -34,9 +34,9 @@ sync: $(VENV) ## Installe les dépendances applicatives
 		echo ">> Aucun requirements.txt (ok si projet simple)"; \
 	fi
 
-.PHONY: add-dev
-add-dev: $(VENV) ## Installe black, flake8, mypy, pytest
-	$(PIP_VENV) install -U black flake8 mypy pytest pytest-cov
+.PHONY: add
+add: $(VENV) ## Installe black, flake8, mypy, pytest
+	$(PIP_VENV) install -r requirements.txt
 
 # --- Qualité ---
 .PHONY: format
