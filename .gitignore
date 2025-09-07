@@ -6,4 +6,5 @@ KEEPEYE.md
 EYESON.py
 flake8_rapport/
 .vscode/
+settings.json
 makefile
