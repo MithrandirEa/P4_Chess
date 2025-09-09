@@ -9,7 +9,6 @@ from type_validation import validate_cast  # déjà utilisé dans ton projet
 class FormView(ABC):
     """Vue de formulaire générique pour la CLI."""
 
-    # Helpers génériques
     def ask_str(self, label: str, default: Optional[str] = None) -> str:
         val = validate_cast(label, str, default=default or "")
         return str(val)
@@ -44,7 +43,6 @@ class TournamentView(FormView):
             "location": self.ask_str("Lieu : ", default=""),
             "start_date": self.ask_date_iso("Date de début (YYYY-MM-DD) : "),
             "end_date": self.ask_date_iso("Date de fin (YYYY-MM-DD) : "),
-            # on stocke un str si ton JSON attend du texte, sinon remplace par int
             "number_of_rounds": str(
                 self.ask_int("Nombre de rounds (par défaut 4) : ", default=4)
             ),
@@ -75,11 +73,10 @@ def select_tournament(controller):
 class PlayerView(FormView):
     def ask_fields(self) -> Dict[str, Optional[str]]:
         print("\n=== Création d’un joueur ===")
-        return self.validate(
-            {
+        data: Dict[str, Optional[str]] = {
                 "name": self.ask_str("Nom complet : "),
                 "birthdate": self.ask_str("Date de naissance (YYYY-MM-DD) : "),
                 "national_chess_id": self.ask_str("Identifiant fédéral : "),
                 "address": self.ask_optional_str("Adresse (optionnelle) : "),
             }
-        )
+        return self.validate(data)
