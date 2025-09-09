@@ -123,11 +123,7 @@ make lint-play
   ```bash
   make format
   ```
-* **Vérifier les types avec MyPy**
 
-  ```bash
-  make typecheck
-  ```
 * **Nettoyer le projet (supprimer venv, caches, rapports)**
 
   ```bash
