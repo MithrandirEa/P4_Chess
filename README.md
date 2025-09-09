@@ -156,6 +156,9 @@ project/
 │   ├── view_models.py
 │   ├── display_round.py
 │   └── display_tournament.py
+│ 
+│── resources/
+│   └── image.png
 │
 │── Data/
 │   ├── FakePlayers.json
