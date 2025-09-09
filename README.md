@@ -119,11 +119,6 @@ make lint-play
   ```bash
   make typecheck
   ```
-* **Exécuter les tests unitaires avec pytest**
-
-  ```bash
-  make test
-  ```
 * **Nettoyer le projet (supprimer venv, caches, rapports)**
 
   ```bash
