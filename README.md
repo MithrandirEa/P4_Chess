@@ -56,14 +56,15 @@ python main.py
 make run
 ```
 ---
-## Importer des joueurs
+
+## 📁 Importer des joueurs
 
 Il est possible d'importer plusieurs joueurs au moyen d'un fichier JSON devant s'appeler **ImportedPlayers.json**. Le fichier doit respecter la structure suivante :
 ![alt text](resources/image.png)
 
 ---
- 
- 
+
+
 ---
 
 ## 📊 Rapports et affichages
