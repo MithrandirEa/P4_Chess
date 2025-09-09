@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List
 from datetime import datetime
-from models import Match, Player
+from chessManager.models import Match, Player
 
 
 @dataclass

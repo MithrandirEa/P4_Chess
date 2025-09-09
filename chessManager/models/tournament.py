@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict, Any
-from models import Player
-from models import Round
+from chessManager.models import Player
+from chessManager.models import Round
 
 
 @dataclass

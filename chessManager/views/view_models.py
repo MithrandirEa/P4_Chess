@@ -74,9 +74,9 @@ class PlayerView(FormView):
     def ask_fields(self) -> Dict[str, Optional[str]]:
         print("\n=== Création d’un joueur ===")
         data: Dict[str, Optional[str]] = {
-                "name": self.ask_str("Nom complet : "),
-                "birthdate": self.ask_str("Date de naissance (YYYY-MM-DD) : "),
-                "national_chess_id": self.ask_str("Identifiant fédéral : "),
-                "address": self.ask_optional_str("Adresse (optionnelle) : "),
-            }
+            "name": self.ask_str("Nom complet : "),
+            "birthdate": self.ask_str("Date de naissance (YYYY-MM-DD) : "),
+            "national_chess_id": self.ask_str("Identifiant fédéral : "),
+            "address": self.ask_optional_str("Adresse (optionnelle) : "),
+        }
         return self.validate(data)

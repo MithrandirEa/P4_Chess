@@ -55,17 +55,7 @@ lint-play: lint-html ## Ouvre le rapport HTML flake8
 	powershell -Command "Start-Process flake8_report/index.html"
 
 
-.PHONY: typecheck
-typecheck: $(VENV) ## Vérifie les types avec mypy
-	$(PYTHON) -m mypy $(SRC_PATHS) || true
 
-# =====================================================================
-# Tests
-# =====================================================================
-
-.PHONY: test
-test: $(VENV) ## Lance les tests unitaires avec pytest
-	$(PYTHON) -m pytest -v --cov=.
 
 # =====================================================================
 # Lancement du projet

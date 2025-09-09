@@ -1,7 +1,7 @@
 from constant import DB_PLAYERS
-from controllers.tournaments_control import TournamentController
-from controllers.rounds_control import reset_last_round_and_rescore
-from views import (
+from chessManager.controllers.tournaments_control import TournamentController
+from chessManager.controllers.rounds_control import reset_last_round_and_rescore
+from chessManager.views import (
     Menu,
     TournamentView,
     select_tournament,
