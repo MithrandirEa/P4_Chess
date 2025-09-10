@@ -1,10 +1,10 @@
 # Nom du venv
 VENV := venv
-PYTHON := $(VENV)/Scripts/python
-PIP := $(VENV)/Scripts/pip
+PYTHON = venv\Scripts\python
+PIP := venv/Scripts/pip
 
 # Répertoires du projet
-SRC_PATHS := controllers models views main.py constant.py type_validation.py
+SRC_PATHS := chessManager/controllers chessManager/models chessManager/views main.py constant.py type_validation.py
 
 # =====================================================================
 # Commandes principales
@@ -48,7 +48,7 @@ lint: $(VENV) ## Analyse du code avec flake8
 
 .PHONY: lint-html
 lint-html: $(VENV) ## Génère un rapport HTML flake8
-	$(PYTHON) -m flake8 --max-line-length=119 --format=html --htmldir=flake8_report $(SRC_PATHS) --exclude venv,__pycache__,Data,test
+	$(PYTHON) -m flake8 --max-line-length=119 --format=html --htmldir=flake8_report $(SRC_PATHS) --exclude venv,__pycache__,Data,test || exit 0
 
 .PHONY: lint-play
 lint-play: lint-html ## Ouvre le rapport HTML flake8
