@@ -1,0 +1,67 @@
+{
+    "generated_at": "2025-08-19T12:53:46",
+    "count": 11,
+    "players": [
+        {
+            "name": "Capucine-Sylvie Hubert",
+            "birthdate": "1998-01-12",
+            "address": "61, rue Daniel Chrétien 81425 Sainte Daniel",
+            "national_chess_id": "IM00472"
+        },
+        {
+            "name": "Jean Leclerc",
+            "birthdate": "1975-02-10",
+            "address": "8, chemin de Godard 07445 GarciaVille",
+            "national_chess_id": "CZ63529"
+        },
+        {
+            "name": "Benjamin Samson",
+            "birthdate": "1970-12-03",
+            "address": "30, boulevard Philippe Pasquier 97150 Rousset-sur-Godard",
+            "national_chess_id": "EB20678"
+        },
+        {
+            "name": "Louis Maury",
+            "birthdate": "1949-08-06",
+            "address": "174, rue Barre 77494 Sainte Camille",
+            "national_chess_id": "GD26194"
+        },
+        {
+            "name": "Isaac-Théophile Fernandes",
+            "birthdate": "1946-01-20",
+            "address": "86, chemin de Perrier 79519 Sainte Élisabeth",
+            "national_chess_id": "VG23876"
+        },
+        {
+            "name": "Daniel-Bernard Regnier",
+            "birthdate": "1944-10-30",
+            "address": "29, avenue Chrétien 08949 Lemaire-les-Bains",
+            "national_chess_id": "RT55711"
+        },
+        {
+            "name": "Jeanne-Marguerite Legrand",
+            "birthdate": "2005-08-23",
+            "address": "8, chemin Suzanne Verdier 97267 Chartier",
+            "national_chess_id": "NN71997"
+        },
+        {
+            "name": "Charlotte Brunel",
+            "birthdate": "1997-05-07",
+            "address": "66, chemin de Le Roux 13925 Laroche",
+            "national_chess_id": "KK26545"
+        },
+        {
+            "name": "Honoré Dias",
+            "birthdate": "1970-07-29",
+            "address": "5, rue Delaunay 51200 Saint BernadetteVille",
+            "national_chess_id": "WQ82201"
+        },
+        {
+            "name": "Jeannine Chauveau",
+            "birthdate": "2002-05-30",
+            "address": "75, rue Bailly 43983 Maillard-les-Bains",
+            "national_chess_id": "EJ75298"
+        }
+        
+    ]
+}

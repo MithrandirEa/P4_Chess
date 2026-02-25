@@ -4,6 +4,8 @@ from .rounds_control import (
     reset_last_round_and_rescore,
 )
 
-__all__ = ["save_player",
-           "record_current_round_results",
-           "reset_last_round_and_rescore"]
+__all__ = [
+    "save_player",
+    "record_current_round_results",
+    "reset_last_round_and_rescore",
+]

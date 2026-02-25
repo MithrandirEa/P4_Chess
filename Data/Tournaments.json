@@ -1,0 +1,45 @@
+[
+    {
+        "name": "Test",
+        "location": "",
+        "start_date": "2025-02-02",
+        "end_date": "2025-02-02",
+        "number_of_rounds": 4,
+        "description": null,
+        "players": [
+            {
+                "name": "Test",
+                "birthdate": "2005-02-02",
+                "national_chess_id": "",
+                "address": null,
+                "tournament_score_value": 0.0
+            }
+        ],
+        "rounds": [
+            {
+                "round_number": 1,
+                "start_datetime": "2025-09-15T15:00:25.563417",
+                "end_datetime": null,
+                "matches": []
+            },
+            {
+                "round_number": 2,
+                "start_datetime": "2025-09-15T15:00:25.563468",
+                "end_datetime": null,
+                "matches": []
+            },
+            {
+                "round_number": 3,
+                "start_datetime": "2025-09-15T15:00:25.563470",
+                "end_datetime": null,
+                "matches": []
+            },
+            {
+                "round_number": 4,
+                "start_datetime": "2025-09-15T15:00:25.563472",
+                "end_datetime": null,
+                "matches": []
+            }
+        ]
+    }
+]

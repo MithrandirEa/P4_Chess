@@ -1,0 +1,11 @@
+{
+  "players": [
+    {
+      "name": "Test",
+      "birthdate": "2005-02-02",
+      "national_chess_id": "",
+      "address": null,
+      "tournament_score_value": 0.0
+    }
+  ]
+}

@@ -1,7 +1,35 @@
+# Environnements virtuels
 venv/
+env/
+
+# Python caches et compilés
 __pycache__/
-Doc/
+*.py[cod]
+
+# Documentation builds (Sphinx)
+_build/
+_static/
+_templates/
+
+# Rapports générés
+flake8_report/
 flake8_rapport/
+
+# Configuration IDE et locale
+.vscode/
 settings.json
-.vscode
+.idea/
+conf.py
+.readthedocs.yml
+.flake8
+index.rst
+makefile
+
+
+# Fichiers de sauvegarde et temporaires
 *.bak
+*.log
+.DS_Store
+Thumbs.db
+make.bat
+

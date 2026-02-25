@@ -1,6 +1,15 @@
+"""Point d'entrée principal de l'application de gestion de tournois d'échecs.
+
+Ce script lance l'application, affiche le menu principal et route les actions
+vers les contrôleurs appropriés.
+"""
+
 from constant import DB_PLAYERS
 from chessManager.controllers.tournaments_control import TournamentController
 from chessManager.controllers.rounds_control import reset_last_round_and_rescore
+
+# Note: Il serait préférable d'importer depuis chessManager.views sans underscore si possible,
+# mais on garde les imports existants.
 from chessManager.views import (
     Menu,
     TournamentView,
@@ -13,9 +22,14 @@ from chessManager.views import (
 )
 
 
-def manage_tournament(
-    controller: TournamentController,
-):  # Fonction de gestion des tournois
+def manage_tournament(controller: TournamentController):
+    """Gère le sous-menu d'un tournoi spécifique.
+
+    Permet d'ajouter des joueurs, de lancer des rounds, de voir les résultats, etc.
+
+    Args:
+        controller (TournamentController): Le contrôleur principal contenant la liste des tournois.
+    """
     tournaments = controller.list_tournaments()
     if not tournaments:
         print("⚠️ Aucun tournoi disponible.")
@@ -25,7 +39,12 @@ def manage_tournament(
     print("\n=== Sélectionner un tournoi ===")
     for idx, t in enumerate(tournaments, start=1):
         print(f"{idx}. {t.name} ({t.start_date} → {t.end_date})")
-    idx = int(input("Choix : ").strip()) - 1
+
+    try:
+        idx = int(input("Choix : ").strip()) - 1
+    except ValueError:
+        return
+
     if not (0 <= idx < len(tournaments)):
         return
     tournament = tournaments[idx]
@@ -39,6 +58,7 @@ def manage_tournament(
             tournament, PlayerView().ask_fields()
         ),
     )
+    # Reste du code inchangé...
     manage_menu.add_option(
         2,
         "Importer joueurs JSON",
@@ -101,6 +121,7 @@ def display_report(controller):
 
 
 def main():
+    """Point d'entrée principal. Affiche le menu racine."""
     controller = TournamentController()
     tview = TournamentView()
 

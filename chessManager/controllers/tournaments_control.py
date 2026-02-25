@@ -8,12 +8,22 @@ from chessManager.controllers import record_current_round_results
 
 
 class TournamentController:
+    """Contrôleur gérant la logique des tournois.
+
+    Cette classe est responsable de la création, du chargement, de la sauvegarde
+    et de la gestion des tournois.
+    """
+
     def __init__(self):
+        """Initialise le contrôleur et charge les tournois existants."""
         self.tournaments: list[Tournament] = []
         self.load_tournaments()
 
     def save_tournaments(self):
-        """Sauvegarde tous les tournois en JSON, avec backup de sécurité."""
+        """Sauvegarde tous les tournois en JSON, avec création d'une copie de sauvegarde (.bak).
+
+        Si aucun tournoi n'est présent, annule l'opération.
+        """
         if not self.tournaments:
             print("⚠️ Aucun tournoi à sauvegarder.")
             return
@@ -22,7 +32,10 @@ class TournamentController:
         import shutil
 
         backup_file = f"{DB_TOURNAMENTS}.bak"
-        shutil.copy(DB_TOURNAMENTS, backup_file)
+        try:
+            shutil.copy(DB_TOURNAMENTS, backup_file)
+        except OSError:
+            pass  # Ignore if file doesn't exist yet
 
         # Sauvegarde principale
         with open(DB_TOURNAMENTS, "w", encoding=DEFAULT_ENCODING) as f:
@@ -30,6 +43,11 @@ class TournamentController:
         print("✅ État sauvegardé")
 
     def load_tournaments(self):
+        """Charge la liste des tournois depuis le fichier JSON de base de données.
+
+        Gère les erreurs de fichier non trouvé ou de JSON invalide en initialisant
+        une liste vide.
+        """
         try:
             with open(DB_TOURNAMENTS, "r", encoding=DEFAULT_ENCODING) as f:
                 data = json.load(f)
@@ -38,8 +56,21 @@ class TournamentController:
             self.tournaments = []
 
     def create_tournament(
-        self, name, location, start_date, end_date, number_of_rounds, description=None
-    ):
+        self, name: str, location: str, start_date: str, end_date: str, number_of_rounds: int, description: str = None
+    ) -> Tournament:
+        """Crée un nouveau tournoi et le sauvegarde.
+
+        Args:
+            name (str): Nom du tournoi.
+            location (str): Lieu.
+            start_date (str): Date de début.
+            end_date (str): Date de fin.
+            number_of_rounds (int): Nombre de rondes.
+            description (str, optional): Description optionnelle.
+
+        Returns:
+            Tournament: L'instance du tournoi créé.
+        """
         tournament = Tournament(
             name, location, start_date, end_date, number_of_rounds, description
         )

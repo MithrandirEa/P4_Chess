@@ -2,7 +2,15 @@ from typing import List, Optional
 from chessManager.models import Tournament, Player, Match
 
 
-def update_player_scores(tournament, match, score_white, score_black):
+def update_player_scores(tournament: Tournament, match: Match, score_white: float, score_black: float):
+    """Met à jour les scores cumulés des joueurs dans le tournoi.
+
+    Args:
+        tournament (Tournament): Le tournoi en cours.
+        match (Match): Le match dont les scores doivent être appliqués.
+        score_white (float): Score du joueur blanc.
+        score_black (float): Score du joueur noir.
+    """
     for p in tournament.players:
         if p.national_chess_id == match.white_player.national_chess_id:
             p.tournament_score_value += score_white
@@ -10,8 +18,15 @@ def update_player_scores(tournament, match, score_white, score_black):
             p.tournament_score_value += score_black
 
 
-def record_current_round_results(tournament: "Tournament"):
-    """Saisie des résultats du round en cours."""
+def record_current_round_results(tournament: Tournament):
+    """Interface interactive pour la saisie des résultats du round en cours.
+
+    Parcourt les matchs du round actif, demande à l'utilisateur de saisir les scores,
+    met à jour les objets Match et Player, et vérifie si le round peut être clôturé.
+
+    Args:
+        tournament (Tournament): L'instance du tournoi en cours.
+    """
 
     current_round = tournament.get_current_round()
     if not current_round:
@@ -52,7 +67,16 @@ def record_current_round_results(tournament: "Tournament"):
 
 
 def ask_score(prompt: str) -> float:
-    """Demande et valide un score (0, 0.5 ou 1)."""
+    """Demande un score à l'utilisateur et valide qu'il soit 0, 0.5 ou 1.
+
+    Boucle tant que l'entrée n'est pas valide.
+
+    Args:
+        prompt (str): Le message à afficher à l'utilisateur.
+
+    Returns:
+        float: Le score validé (0.0, 0.5 ou 1.0).
+    """
     while True:
         try:
             score = float(input(prompt).strip())
@@ -64,19 +88,41 @@ def ask_score(prompt: str) -> float:
             print("⚠️ Entrée invalide. Veuillez entrer 0, 0.5 ou 1.")
 
 
-def _already_played(t, a, b) -> bool:
-    for rnd in t.rounds:  # rounds existants
+def _already_played(tournament: Tournament, player1: Player, player2: Player) -> bool:
+    """Vérifie si deux joueurs se sont déjà affrontés dans ce tournoi.
+
+    Args:
+        tournament (Tournament): Le tournoi à vérifier.
+        player1 (Player): Le premier joueur.
+        player2 (Player): Le deuxième joueur.
+
+    Returns:
+        bool: True si un match (dans n'importe quel sens) a déjà eu lieu, False sinon.
+    """
+    for rnd in tournament.rounds:  # rounds existants
         for m in rnd.matches:  # chaque match
-            if (m.white_player is a and m.black_player is b) or (
-                m.white_player is b and m.black_player is a
+            if (m.white_player is player1 and m.black_player is player2) or (
+                m.white_player is player2 and m.black_player is player1
             ):
                 return True
     return False
 
 
-def prepare_next_round(t: Tournament) -> Optional[object]:
-    """Crée les matchs du prochain round non clôturé."""
-    nxt = t.get_current_round()  # premier round sans end_datetime
+def prepare_next_round(tournament: Tournament) -> Optional[object]:
+    """Prépare et génère les appariements pour le prochain round.
+
+    Utilise le système suisse simplifié :
+    1. Trie les joueurs par score (puis ordre alphabetique).
+    2. Apparie les joueurs proches au classement qui n'ont pas encore joué ensemble (si possible).
+    3. Gère le "bye" (joueur exempté) si nombre impair, lui donnant +1 point.
+
+    Args:
+        tournament (Tournament): Le tournoi concerné.
+
+    Returns:
+        Optional[object]: Le round préparé ou None si le tournoi est fini.
+    """
+    nxt = tournament.get_current_round()  # premier round sans end_datetime
     if nxt is None:
         print("Tournoi terminé.")
         return None
@@ -85,7 +131,7 @@ def prepare_next_round(t: Tournament) -> Optional[object]:
         return nxt
 
     players: List[Player] = sorted(
-        t.players, key=lambda p: (-p.tournament_score_value, p.name)
+        tournament.players, key=lambda p: (-p.tournament_score_value, p.name)
     )
 
     # Bye si impair
@@ -98,12 +144,12 @@ def prepare_next_round(t: Tournament) -> Optional[object]:
     while i < len(players):
         a, b = players[i], players[i + 1]
         # micro-swap si déjà joués
-        if _already_played(t, a, b) and i + 2 < len(players):
+        if _already_played(tournament, a, b) and i + 2 < len(players):
             c = players[i + 2]
-            if not _already_played(t, a, c):
+            if not _already_played(tournament, a, c):
                 players[i + 1], players[i + 2] = players[i + 2], players[i + 1]
                 b = players[i + 1]
-            elif not _already_played(t, b, c):
+            elif not _already_played(tournament, b, c):
                 players[i], players[i + 2] = players[i + 2], players[i]
                 a = players[i]
         nxt.add_match(
