@@ -5,8 +5,6 @@
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Code Style](https://img.shields.io/badge/code%20style-flake8-black?style=flat-square)](https://flake8.pycqa.org/en/latest/)
-[![Documentation](https://img.shields.io/badge/docs-sphinx-green?style=flat-square)](https://www.sphinx-doc.org/)
-
 ## 🚀 Prérequis
 
 * **Python 3.9+** installé

@@ -23,7 +23,7 @@ conf.py
 .readthedocs.yml
 .flake8
 index.rst
-makefile
+
 
 
 # Fichiers de sauvegarde et temporaires
